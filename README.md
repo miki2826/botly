@@ -31,6 +31,6 @@ botly.on('message', (senderId, message, data) => {
 });
 
 const app = express();
-app.use('/webhook', bot.router());
+app.use('/webhook', botly.router());
 app.listen(3000);
 ```
