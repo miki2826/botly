@@ -1,0 +1,18 @@
+{
+  "curly":true,
+  "eqeqeq":true,
+  "undef":true,
+  "unused":false,
+  "eqnull":true,
+  "noarg":true,
+  "nonew":false,
+  "node":true,
+  "jquery":true,
+  "evil":true,
+  "laxcomma":true,
+  "devel":false,
+  "esversion": 6,
+  "validthis": true,
+  "globals":{
+  }
+}

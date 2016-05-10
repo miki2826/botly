@@ -1,0 +1,6 @@
+{
+  "options": {
+    "jshintrc": ".jshintrc"
+  },
+  "uses_defaults": ["lib/**/*.js", "index.js"]
+}
