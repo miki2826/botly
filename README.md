@@ -35,6 +35,8 @@ app.use("/webhook", botly.router());
 app.listen(3000);
 ```
 
+You can also clone the repository and run a complete bot example from the `example` folder.
+
 ### API
 
 #### send (recipientId, message[, callback])
