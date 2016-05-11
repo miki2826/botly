@@ -10,6 +10,26 @@ botly
 
 > Simple Facebook Messenger Platform Bot API
 
+  - [Install](#install)
+  - [Example](#example)
+  - [API](#api)
+    - [send (recipientId, message[, callback])](#send-recipientid-message-callback)
+    - [sendText (recipientId, text[, callback])](#sendtext-recipientid-text-callback)
+    - [sendAttachment (recipientId, type, payload[, callback])](#sendattachment-recipientid-type-payload-callback)
+    - [sendImage (recipientId, imageURL[, callback])](#sendimage-recipientid-imageurl-callback)
+    - [sendButtons (recipientId, text, buttons[, callback])](#sendbuttons-recipientid-text-buttons-callback)
+    - [sendGeneric (recipientId, elements[, callback])](#sendgeneric-recipientid-elements-callback)
+    - [sendReceipt (recipientId, payload[, callback])](#sendreceipt-recipientid-payload-callback)
+    - [setWelcomeScreen (pageId, message[, callback])](#setwelcomescreen-pageid-message-callback)
+    - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
+    - [createWebURLButton (title, url)](#createweburlbutton-title-url)
+    - [createPostbackButton (title, payload)](#createpostbackbutton-title-payload)
+    - [createButtonTemplate (text, buttons)](#createbuttontemplate-text-buttons)
+    - [createGenericTemplate (elements)](#creategenerictemplate-elements)
+    - [createElement (title, itemURL, imageURL, subtitle, buttons)](#createelement-title-itemurl-imageurl-subtitle-buttons)
+    - [handleMessage (req)](#handlemessage-req)
+  - [Events](#events)
+
 ### Install
 `npm i botly --save`
 
