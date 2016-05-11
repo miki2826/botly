@@ -6,7 +6,7 @@ botly
 [![Dependency Status](https://david-dm.org/Askrround/botly.svg?theme=shields.io)](https://david-dm.org/Askrround/botly)
 [![devDependency Status](https://david-dm.org/Askrround/botly/dev-status.svg?theme=shields.io)](https://david-dm.org/Askrround/botly#info=devDependencies)
 [![npm downloads](https://img.shields.io/npm/dm/botly.svg)](https://img.shields.io/npm/dm/botly.svg)
-[![NPM](https://nodei.co/npm/batchelorjs.png)](https://nodei.co/npm/botly/)
+[![NPM](https://nodei.co/npm/botly.png)](https://nodei.co/npm/botly/)
 
 > Simple Facebook Messenger Platform Bot API
 
