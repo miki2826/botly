@@ -37,6 +37,55 @@ app.listen(3000);
 
 ### API
 
+#### send (recipientId, message[, callback])
+```javascript
+botly.send(userId, {
+    text: "Hi There!"
+}, function (err, data) {
+        //log it
+});
+```
+
+#### sendText (recipientId, text[, callback])
+```javascript
+botly.sendText(userId, "Hi There!", function (err, data) {
+        //log it
+});
+```
+
+#### sendAttachment (recipientId, type, payload[, callback])
+```javascript
+botly.sendAttachment(userId, Botly.CONST.ATTACHMENT_TYPE.IMAGE,
+    {
+        url: "http://example.com/image.png"
+    }, function (err, data) {
+        //log it
+});
+```
+
+#### sendImage (recipientId, imageURL[, callback])
+```javascript
+botly.sendImage(userId, "http://example.com/image.png", function (err, data) {
+        //log it
+});
+```
+
+#### setWelcomeScreen (pageId, message[, callback])
+```javascript
+botly.setWelcomeScreen("myPage", {
+    text: "Welcome to my page!"
+}, function (err, body) {
+    //log it
+});
+```
+
+#### getUserProfile (userId[, callback])
+```javascript
+botly.getUserProfile(senduserIder, function (err, info) {
+    //cache it
+});
+```
+
 ### Events
 ```javascript
 botly.on("message", (sender, message, data) => {
