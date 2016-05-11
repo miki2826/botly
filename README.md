@@ -73,7 +73,7 @@ botly.sendImage(userId, "http://example.com/image.png", function (err, data) {
 #### sendButtons (recipientId, text, buttons[, callback])
 ```javascript
 let buttons = [];
-buttons.push(botly.createWebUrlButton("Go to Askrround", "http://askrround.com"));
+buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
 buttons.push(botly.createPostbackButton("Continue", "continue"));
 botly.sendButtons(userId, "What do you want to do next?", buttons
     , function (err, data) {
@@ -84,7 +84,7 @@ botly.sendButtons(userId, "What do you want to do next?", buttons
 #### sendGeneric (recipientId, elements[, callback])
 ```javascript
 let buttons = [];
-buttons.push(botly.createWebUrlButton("Go to Askrround", "http://askrround.com"));
+buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
 buttons.push(botly.createPostbackButton("Continue", "continue"));
 let element = botly.createElement("What do you want to do next?",
     "http://example.com", /*itemURL*/
@@ -167,6 +167,23 @@ botly.getUserProfile(senduserIder, function (err, info) {
     //cache it
 });
 ```
+
+#### createWebURLButton (title, url)
+
+#### createPostbackButton (title, payload)
+
+#### createButtonTemplate (text, buttons)
+Where `buttons` can be a single button or an array of buttons.
+
+#### createGenericTemplate (elements)
+Where `elements` can be a single element or an array of elements.
+
+#### createElement (title, itemURL, imageURL, subtitle, buttons)
+Where `buttons` can be a single button or an array of buttons.
+
+#### handleMessage (req)
+If you are not using express, you can use this function to parse the request from facebook in order to generate the proper events.
+`req` should have a body property.
 
 ### Events
 ```javascript

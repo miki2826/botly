@@ -1,0 +1,37 @@
+{
+  "name": "botly-example",
+  "version": "0.0.0",
+  "description": "Simple Facebook Messenger Bot API using Botly Example",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js",
+    "test": "grunt default --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Askrround/botly.git"
+  },
+  "keywords": [
+    "fb",
+    "facebook",
+    "messenger",
+    "bot",
+    "platform",
+    "askrround",
+    "robot"
+  ],
+  "author": {
+    "name": "Michael Dimenshtein",
+    "email": "miki2826@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Askrround/botly/issues"
+  },
+  "homepage": "https://github.com/Askrround/botly#readme",
+  "dependencies": {
+    "botly": "0.1.0",
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4"
+  }
+}
