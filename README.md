@@ -34,3 +34,48 @@ const app = express();
 app.use('/webhook', botly.router());
 app.listen(3000);
 ```
+
+## API
+
+## Events
+```javascript
+botly.on('message', (sender, message, data) => {
+    /**
+     * where data can be a text message or an attachment
+     * data = {
+     *   text: "text entered by user"
+     * }
+     * OR
+     * data = {
+     *   attachments: {
+     *       image: ["imageURL1", "imageURL2"],
+     *       video: ["videoURL"],
+     *       audio: ["audioURL1"],
+     *       location: [{coordinates}]
+     *   }
+     * }
+     */
+});
+
+botly.on('postback', (sender, message, postback) => {
+    /**
+     * where postback is the postback payload
+     */
+});
+
+botly.on('delivery', (sender, message, mids) => {
+    /**
+     * where mids is an array of mids
+     */
+});
+
+botly.on('optin', (sender, message, optin) => {
+    /**
+     * where optin is the ref pass through param
+     */
+});
+
+botly.on('error', (ex) => {
+    /* handle exceptions */
+});
+```
