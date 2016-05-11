@@ -10,10 +10,10 @@ botly
 
 > Simple Facebook Messenger Platform Bot API
 
-## Install
+### Install
 `npm i botly --save`
 
-## Example
+### Example
 ```javascript
 const express = require("express");
 const Botly = require("botly");
@@ -24,22 +24,22 @@ const botly = new Botly({
     notificationType: Botly.CONST.REGULAR //already the default (optional)
 });
 
-botly.on('message', (senderId, message, data) => {
+botly.on("message", (senderId, message, data) => {
     let text = `echo: ${data.text}`;
 
     botly.sendText(senderId, text);
 });
 
 const app = express();
-app.use('/webhook', botly.router());
+app.use("/webhook", botly.router());
 app.listen(3000);
 ```
 
-## API
+### API
 
-## Events
+### Events
 ```javascript
-botly.on('message', (sender, message, data) => {
+botly.on("message", (sender, message, data) => {
     /**
      * where data can be a text message or an attachment
      * data = {
@@ -57,25 +57,25 @@ botly.on('message', (sender, message, data) => {
      */
 });
 
-botly.on('postback', (sender, message, postback) => {
+botly.on("postback", (sender, message, postback) => {
     /**
      * where postback is the postback payload
      */
 });
 
-botly.on('delivery', (sender, message, mids) => {
+botly.on("delivery", (sender, message, mids) => {
     /**
      * where mids is an array of mids
      */
 });
 
-botly.on('optin', (sender, message, optin) => {
+botly.on("optin", (sender, message, optin) => {
     /**
      * where optin is the ref pass through param
      */
 });
 
-botly.on('error', (ex) => {
+botly.on("error", (ex) => {
     /* handle exceptions */
 });
 ```
