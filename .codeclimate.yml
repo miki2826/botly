@@ -9,7 +9,7 @@ engines:
     enabled: true
     checks:
       callback-return:
-      enabled: false
+        enabled: false
     exclude_fingerprints:
       - 43ed3237cd64064f9d75f3d31466d10d
   fixme:
