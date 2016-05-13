@@ -1,3 +1,13 @@
 language: node_js
 node_js:
    - "4.4.3"
+addons:
+  code_climate:
+    repo_token:
+before_install: npm install -g grunt-cli
+after_script:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < test/coverage/reports/lcov.info
+exclude_paths:
+- "Gruntfile.js"
+- "build/*"
