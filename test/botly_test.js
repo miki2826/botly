@@ -155,6 +155,35 @@ describe("Botly Tests", function () {
 
     });
 
+    it("should emit error when there is one", done => {
+
+        var botly = new Botly({
+            accessToken: "myToken",
+            verifyToken: "myVerifyToken",
+            webHookPath: "/webhook",
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+        var router = botly.router();
+
+        botly.on("error", (err) => {
+            expect(err).to.be.defined;
+            done();
+        });
+
+        var response = http.createResponse();
+        var request = http.createRequest({
+            method: "POST",
+            url: "/webhook",
+            body: {
+                "object": "page",
+                "entry": "blabla"
+            }
+        });
+
+        router.handle(request, response);
+
+    });
+
     it("should handle delivery messages", done => {
         var mids = [
             "mid.1458668856218:ed81099e15d3f4f233"
@@ -378,7 +407,8 @@ describe("Botly Tests", function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.sendText(USER_ID, "hi", ()=>{});
+        botly.sendText(USER_ID, "hi", ()=> {
+        });
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
@@ -429,10 +459,7 @@ describe("Botly Tests", function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        var buttons = [];
-        buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
-        buttons.push(botly.createPostbackButton("Continue", "continue"));
-        botly.sendButtons(USER_ID, "What do you want to do next?", buttons, function (err, data) {
+        botly.sendButtons(USER_ID, "What do you want to do next?", botly.createPostbackButton("Continue", "continue"), function (err, data) {
         });
 
         expect(request.post.calledOnce).to.be.true;
@@ -442,11 +469,6 @@ describe("Botly Tests", function () {
                     "payload": {
 
                         "buttons": [
-                            {
-                                "title": "Go to Askrround",
-                                "type": "web_url",
-                                "url": "http://askrround.com"
-                            },
                             {
                                 "payload": "continue",
                                 "title": "Continue",
@@ -475,13 +497,10 @@ describe("Botly Tests", function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        var buttons = [];
-        buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
-        buttons.push(botly.createPostbackButton("Continue", "continue"));
         var element = botly.createElement("What do you want to do next?",
             "https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg",
             "https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg",
-            "Choose now!", buttons);
+            "Choose now!", botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
         botly.sendGeneric(USER_ID, element);
 
         expect(request.post.calledOnce).to.be.true;
@@ -496,11 +515,6 @@ describe("Botly Tests", function () {
                                         "title": "Go to Askrround",
                                         "type": "web_url",
                                         "url": "http://askrround.com"
-                                    },
-                                    {
-                                        "payload": "continue",
-                                        "title": "Continue",
-                                        "type": "postback"
                                     }
                                 ],
                                 "image_url": "https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg",
@@ -580,7 +594,7 @@ describe("Botly Tests", function () {
                 }
             ]
         };
-        botly.sendReceipt(USER_ID, payload);
+        botly.sendReceipt(USER_ID, payload, Botly.CONST.NOTIFICATION_TYPE.REGULAR);
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
@@ -640,7 +654,7 @@ describe("Botly Tests", function () {
                     "type": "template"
                 }
             },
-            "notification_type": "NO_PUSH",
+            "notification_type": "REGULAR",
             "recipient": {
                 "id": "333"
             }
@@ -680,7 +694,8 @@ describe("Botly Tests", function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.setWelcomeScreen(PAGE_ID, {text:"hi"}, ()=>{});
+        botly.setWelcomeScreen(PAGE_ID, {text: "hi"}, ()=> {
+        });
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
