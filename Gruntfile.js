@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             scope: 'devDependencies'
         },
 
-        //can postStub process config object before it gets passed to grunt
+        //can post process config object before it gets passed to grunt
         postProcess: function(config) {},
 
         //allows to manipulate the config object before it gets merged with the data object
