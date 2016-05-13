@@ -1,0 +1,10 @@
+{
+  "test": {
+    "options": {
+      "timeout": 10000,
+      "reporter": "spec",
+      "quiet": false
+    },
+    "src": ["test/*.js"]
+  }
+}
