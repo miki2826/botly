@@ -1,7 +1,7 @@
 botly
 ---------
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
-[![Build Status](https://travis-ci.com/Askrround/botly.svg?token=d9DyBzKtc6v8W4BUJ1pp&branch=master)](https://travis-ci.com/Askrround/botly)
+[![Build Status](https://travis-ci.org/Askrround/botly.svg)](https://travis-ci.org/Askrround/botly)
 [![npm version](https://badge.fury.io/js/botly.svg)](http://badge.fury.io/js/botly)
 [![Dependency Status](https://david-dm.org/Askrround/botly.svg?theme=shields.io)](https://david-dm.org/Askrround/botly)
 [![devDependency Status](https://david-dm.org/Askrround/botly/dev-status.svg?theme=shields.io)](https://david-dm.org/Askrround/botly#info=devDependencies)
