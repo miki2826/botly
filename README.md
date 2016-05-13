@@ -7,6 +7,7 @@ botly
 [![Dependency Status](https://david-dm.org/Askrround/botly.svg?theme=shields.io)](https://david-dm.org/Askrround/botly)
 [![devDependency Status](https://david-dm.org/Askrround/botly/dev-status.svg?theme=shields.io)](https://david-dm.org/Askrround/botly#info=devDependencies)
 [![npm downloads](https://img.shields.io/npm/dm/botly.svg)](https://img.shields.io/npm/dm/botly.svg)
+[![license](https://img.shields.io/npm/l/botly.svg)](LICENSE)
 [![NPM](https://nodei.co/npm/botly.png)](https://nodei.co/npm/botly/)
 
 > Simple Facebook Messenger Platform Bot API
@@ -60,7 +61,7 @@ You can also clone the repository and run a complete bot example from the `examp
 
 ### API
 
-#### send (recipientId, message[, callback])
+#### send (recipientId, message[, notificationType][, callback])
 ```javascript
 botly.send(userId, {
     text: "Hi There!"
@@ -69,14 +70,14 @@ botly.send(userId, {
 });
 ```
 
-#### sendText (recipientId, text[, callback])
+#### sendText (recipientId, text[, notificationType][, callback])
 ```javascript
 botly.sendText(userId, "Hi There!", function (err, data) {
         //log it
 });
 ```
 
-#### sendAttachment (recipientId, type, payload[, callback])
+#### sendAttachment (recipientId, type, payload[, notificationType][, callback])
 ```javascript
 botly.sendAttachment(userId, Botly.CONST.ATTACHMENT_TYPE.IMAGE,
     {
@@ -86,14 +87,14 @@ botly.sendAttachment(userId, Botly.CONST.ATTACHMENT_TYPE.IMAGE,
 });
 ```
 
-#### sendImage (recipientId, imageURL[, callback])
+#### sendImage (recipientId, imageURL[, notificationType][, callback])
 ```javascript
 botly.sendImage(userId, "http://example.com/image.png", function (err, data) {
         //log it
 });
 ```
 
-#### sendButtons (recipientId, text, buttons[, callback])
+#### sendButtons (recipientId, text, buttons[, notificationType][, callback])
 ```javascript
 let buttons = [];
 buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
@@ -104,7 +105,7 @@ botly.sendButtons(userId, "What do you want to do next?", buttons
 });
 ```
 
-#### sendGeneric (recipientId, elements[, callback])
+#### sendGeneric (recipientId, elements[, notificationType][, callback])
 ```javascript
 let buttons = [];
 buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
@@ -118,7 +119,7 @@ botly.sendGeneric(sender, element, function (err, data) {
 });
 ```
 
-#### sendReceipt (recipientId, payload[, callback])
+#### sendReceipt (recipientId, payload[, notificationType][, callback])
 ```javascript
 let payload = {
     "recipient_name": "Stephane Crozatier",
