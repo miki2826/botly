@@ -8,10 +8,10 @@ const http = require('http');
 
 const port = '3000';
 
-const Botly = require("botly");
+const Botly = require("../index");
 const botly = new Botly({
     verifyToken: "this_is_a_token",
-    accessToken: "<YOUR_ACCESS_TOKEN>"
+    accessToken: process.env.ACCESS_TOKEN
 });
 
 var app = express();
@@ -22,12 +22,12 @@ botly.on('message', (sender, message, data) => {
     let text = `echo: ${data.text}`;
 
     if (users[sender]) {
-        if (data && data.text.indexOf("image") !== -1) {
+        if (data && data.text && data.text.indexOf("image") !== -1) {
             botly.sendImage(sender, "https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg", function (err, whatever) {
                 console.log(err);
             });
         }
-        else if (data && data.text.indexOf("buttons") !== -1) {
+        else if (data && data.text &&data.text.indexOf("buttons") !== -1) {
             let buttons = [];
             buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
             buttons.push(botly.createPostbackButton("Continue", "continue"));
@@ -35,7 +35,7 @@ botly.on('message', (sender, message, data) => {
                 console.log("send buttons cb:", err, data);
             });
         }
-        else if (data && data.text.indexOf("generic") !== -1) {
+        else if (data && data.text && data.text.indexOf("generic") !== -1) {
             let buttons = [];
             buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
             buttons.push(botly.createPostbackButton("Continue", "continue"));
@@ -47,7 +47,7 @@ botly.on('message', (sender, message, data) => {
                 console.log("send generic cb:", err, data);
             });
         }
-        else if (data && data.text.indexOf("receipt") !== -1) {
+        else if (data && data.text && data.text.indexOf("receipt") !== -1) {
             let payload = {
                 "recipient_name": "Stephane Crozatier",
                 "order_number": "12345678902",
