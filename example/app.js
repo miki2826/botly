@@ -8,10 +8,10 @@ const http = require('http');
 
 const port = '3000';
 
-const Botly = require("../lib/Botly");
+const Botly = require("botly");
 const botly = new Botly({
     verifyToken: "this_is_a_token",
-    accessToken: "EAASoYtcU9hgBALO686EIlEUx2dyIgHGysHz4mZAZBx7xKJZCRC7o2YGOxWpdosKdogu12jpuKjMOielglZC6A7QCV7hegbiMZB5F2yRkenpV6sjz0gVWpONkcdm6vESjDNihNlIPNtxQJndZCP6bvZCLFmkZBtsHxGGGi7DebrSZCIgZDZD"
+    accessToken: "<YOUR_ACCESS_TOKEN>"
 });
 
 var app = express();
