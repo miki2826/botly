@@ -137,10 +137,11 @@ botly.on('error', (ex) => {
     console.log("error:", ex);
 });
 
-botly.setWelcomeScreen("mikitestapp", {text: "What's upppppppppp?????!!!!"}, function (err, body) {
-    console.log("welcome cb:", err, body);
-});
-
+if (process.env.PAGE_ID) {
+    botly.setWelcomeScreen(process.env.PAGE_ID, {text: "What's upppppppppp?????!!!!"}, function (err, body) {
+        console.log("welcome cb:", err, body);
+    });
+}
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
