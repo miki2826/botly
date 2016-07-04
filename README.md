@@ -22,7 +22,7 @@
     - [sendButtons (options[, callback])](#sendbuttons-options-callback)
     - [sendGeneric (options[, callback])](#sendgeneric-options-callback)
     - [sendReceipt (options[, callback])](#sendreceipt-options-callback)
-    - [setWelcomeScreen (options[, callback])](#setwelcomescreen-options-callback)
+    - [setGetStarted (options[, callback])](#setgetstarted-options-callback)
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
     - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
     - [createWebURLButton (title, url)](#createweburlbutton-title-url)
@@ -184,18 +184,16 @@ botly.sendReceipt({id: sender, payload: payload}, function (err, data) {
 });
 ```
 
-#### setWelcomeScreen (options[, callback])
+#### setGetStarted (options[, callback])
 ```javascript
-botly.setWelcomeScreen({pageId: "myPage", message: {
-    text: "Welcome to my page!"
-}}, function (err, body) {
+botly.setGetStarted({pageId: "myPage", payload: "GET_STARTED_CLICKED"}, function (err, body) {
     //log it
 });
 ```
 
 #### setPersistentMenu (options[, callback])
 ```javascript
-botly.setWelcomeScreen({pageId: "myPage", buttons: [botly.createPostbackButton('reset', 'reset_me')]}, function (err, body) {
+botly.setPersistentMenu({pageId: "myPage", buttons: [botly.createPostbackButton('reset', 'reset_me')]}, function (err, body) {
     //log it
 });
 ```
@@ -275,3 +273,4 @@ botly.on("error", (ex) => {
 - added support for quick replies
 - add support for persistent menu
 - added support for audio/video/file attachments
+- renamed setWelcomeScreen to setGetStarted since no longer supported by facebook.

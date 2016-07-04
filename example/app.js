@@ -6,7 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const http = require('http');
 
-const port = '3000';
+const port = '8080';
 
 const Botly = require("../index");
 const botly = new Botly({
@@ -47,6 +47,11 @@ botly.on('message', (sender, message, data) => {
                 buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com')]
             };
             botly.sendGeneric({id: sender, elements:element}, function (err, data) {
+                console.log("send generic cb:", err, data);
+            });
+        }
+        else if (data && data.text && data.text.indexOf("quick") !== -1) {
+            botly.sendText({id: sender, text:"some question?", quick_replies: [botly.createQuickReply('option1', 'option_1')]}, function (err, data) {
                 console.log("send generic cb:", err, data);
             });
         }
@@ -117,7 +122,7 @@ botly.on('message', (sender, message, data) => {
         botly.getUserProfile(sender, function (err, info) {
             users[sender] = info;
 
-            botly.sendText(sender, text + users[sender].first_name, function (err, data) {
+            botly.sendText({id: sender, text: text + users[sender].first_name}, function (err, data) {
                 console.log("send text cb:", err, data);
             });
         });
@@ -141,14 +146,17 @@ botly.on('error', (ex) => {
 });
 
 if (process.env.PAGE_ID) {
-    botly.setWelcomeScreen({pageId: process.env.PAGE_ID, message: {text: "What's upppppppppp?????!!!!"}}, function (err, body) {
+    botly.setGetStarted({pageId: process.env.PAGE_ID, payload: 'GET_STARTED_CLICKED'}, function (err, body) {
         console.log("welcome cb:", err, body);
     });
+    botly.setPersistentMenu({pageId: process.env.PAGE_ID, buttons: [botly.createPostbackButton('reset', 'reset_me')]}, function (err, body) {
+        console.log("persistent menu cb:", err, body);
+    })
 }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/webhook', botly.router());
+app.use('/fb', botly.router());
 app.set('port', port);
 
 

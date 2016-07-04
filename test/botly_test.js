@@ -733,16 +733,14 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.setWelcomeScreen({pageId: PAGE_ID, message: {text: 'hi'}}, ()=> {
+        botly.setGetStarted({pageId: PAGE_ID, payload: 'GET_STARTED_CLICKED'}, ()=> {
         });
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
             'call_to_actions': [
                 {
-                    'message': {
-                        'text': 'hi'
-                    }
+                    'payload': 'GET_STARTED_CLICKED'
                 }
             ],
             'setting_type': 'call_to_actions',
