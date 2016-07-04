@@ -1,4 +1,4 @@
-![Botly](/botly_logo.png)
+<img src="https://raw.githubusercontent.com/Askrround/botly/master/botly_logo.png" width="250" height="250" />
 ---------
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
 [![Build Status](https://travis-ci.org/Askrround/botly.svg)](https://travis-ci.org/Askrround/botly)
