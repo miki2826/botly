@@ -23,7 +23,7 @@ botly.on('message', (sender, message, data) => {
 
     if (users[sender]) {
         if (data && data.text && data.text.indexOf("image") !== -1) {
-            botly.sendImage(sender, "https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg", function (err, whatever) {
+            botly.sendImage({id: sender, url:"https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg"}, function (err, whatever) {
                 console.log(err);
             });
         }
@@ -31,7 +31,7 @@ botly.on('message', (sender, message, data) => {
             let buttons = [];
             buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
             buttons.push(botly.createPostbackButton("Continue", "continue"));
-            botly.sendButtons(sender, "What do you want to do next?", buttons, function (err, data) {
+            botly.sendButtons({id: sender, text: "What do you want to do next?", buttons: buttons}, function (err, data) {
                 console.log("send buttons cb:", err, data);
             });
         }
@@ -39,11 +39,14 @@ botly.on('message', (sender, message, data) => {
             let buttons = [];
             buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
             buttons.push(botly.createPostbackButton("Continue", "continue"));
-            let element = botly.createElement("What do you want to do next?",
-                "https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg",
-                "https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg",
-                "Choose now!", buttons);
-            botly.sendGeneric(sender, element, function (err, data) {
+            let element = {
+                title: 'What do you want to do next?',
+                item_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+                image_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+                subtitle: 'Choose now!',
+                buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com')]
+            };
+            botly.sendGeneric({id: sender, elements:element}, function (err, data) {
                 console.log("send generic cb:", err, data);
             });
         }
@@ -98,14 +101,14 @@ botly.on('message', (sender, message, data) => {
                     }
                 ]
             };
-            botly.sendReceipt(sender, payload, function (err, data) {
+            botly.sendReceipt({id: sender, payload: payload}, function (err, data) {
                 console.log("send generic cb:", err, data);
             });
         }
         else {
-            botly.send(sender, {
+            botly.send({id: sender, message: {
                 text: `Sorry ${users[sender].last_name}, you are annoying `
-            }, function (err, data) {
+            }}, function (err, data) {
                 console.log("regular send cb:", err, data);
             });
         }
@@ -138,7 +141,7 @@ botly.on('error', (ex) => {
 });
 
 if (process.env.PAGE_ID) {
-    botly.setWelcomeScreen(process.env.PAGE_ID, {text: "What's upppppppppp?????!!!!"}, function (err, body) {
+    botly.setWelcomeScreen({pageId: process.env.PAGE_ID, message: {text: "What's upppppppppp?????!!!!"}}, function (err, body) {
         console.log("welcome cb:", err, body);
     });
 }
