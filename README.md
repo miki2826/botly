@@ -1,4 +1,4 @@
-botly
+![Botly](/botly_logo.png)
 ---------
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
 [![Build Status](https://travis-ci.org/Askrround/botly.svg)](https://travis-ci.org/Askrround/botly)
@@ -15,22 +15,25 @@ botly
   - [Install](#install)
   - [Example](#example)
   - [API](#api)
-    - [send (recipientId, message[, notificationType][, callback])](#send-recipientid-message-notificationtype-callback)
-    - [sendText (recipientId, text[, notificationType][, callback])](#sendtext-recipientid-text-notificationtype-callback)
-    - [sendAttachment (recipientId, type, payload[, notificationType][, callback])](#sendattachment-recipientid-type-payload-notificationtype-callback)
-    - [sendImage (recipientId, imageURL[, notificationType][, callback])](#sendimage-recipientid-imageurl-notificationtype-callback)
-    - [sendButtons (recipientId, text, buttons[, notificationType][, callback])](#sendbuttons-recipientid-text-buttons-notificationtype-callback)
-    - [sendGeneric (recipientId, elements[, notificationType][, callback])](#sendgeneric-recipientid-elements-notificationtype-callback)
-    - [sendReceipt (recipientId, payload[, notificationType][, callback])](#sendreceipt-recipientid-payload-notificationtype-callback)
-    - [setWelcomeScreen (pageId, message[, callback])](#setwelcomescreen-pageid-message-callback)
+    - [send (options[, callback])](#send-options-callback)
+    - [sendText (options[, callback])](#sendtext-options-callback)
+    - [sendAttachment (options[, callback])](#sendattachment-options-callback)
+    - [sendImage (options[, callback])](#sendimage-options-callback)
+    - [sendButtons (options[, callback])](#sendbuttons-options-callback)
+    - [sendGeneric (options[, callback])](#sendgeneric-options-callback)
+    - [sendReceipt (options[, callback])](#sendreceipt-options-callback)
+    - [setWelcomeScreen (options[, callback])](#setwelcomescreen-options-callback)
+    - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
     - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
     - [createWebURLButton (title, url)](#createweburlbutton-title-url)
     - [createPostbackButton (title, payload)](#createpostbackbutton-title-payload)
+    - [createQuickReply (title, payload)](#createquickreply-title-payload)
     - [createButtonTemplate (text, buttons)](#createbuttontemplate-text-buttons)
     - [createGenericTemplate (elements)](#creategenerictemplate-elements)
-    - [createElement (title, itemURL, imageURL, subtitle, buttons)](#createelement-title-itemurl-imageurl-subtitle-buttons)
     - [handleMessage (req)](#handlemessage-req)
   - [Events](#events)
+  - [Change Log](#change-log)
+    - [version 1.0.0](#version-100)
 
 ### Install
 `npm i botly --save`
@@ -61,65 +64,70 @@ You can also clone the repository and run a complete bot example from the `examp
 
 ### API
 
-#### send (recipientId, message[, notificationType][, callback])
+#### send (options[, callback])
 ```javascript
-botly.send(userId, {
-    text: "Hi There!"
+botly.send({
+    id: userId,
+    message: {text: "Hi There!"}
 }, function (err, data) {
         //log it
 });
 ```
 
-#### sendText (recipientId, text[, notificationType][, callback])
+#### sendText (options[, callback])
 ```javascript
-botly.sendText(userId, "Hi There!", function (err, data) {
+botly.sendText({id: userId, text: "Hi There!"}, function (err, data) {
         //log it
 });
 ```
 
-#### sendAttachment (recipientId, type, payload[, notificationType][, callback])
+#### sendAttachment (options[, callback])
 ```javascript
-botly.sendAttachment(userId, Botly.CONST.ATTACHMENT_TYPE.IMAGE,
-    {
-        url: "http://example.com/image.png"
-    }, function (err, data) {
+botly.sendAttachment({
+    id: userId,
+    type: Botly.CONST.ATTACHMENT_TYPE.IMAGE,
+    payload: {url: "http://example.com/image.png"}
+}, function (err, data) {
         //log it
 });
 ```
 
-#### sendImage (recipientId, imageURL[, notificationType][, callback])
+#### sendImage (options[, callback])
 ```javascript
-botly.sendImage(userId, "http://example.com/image.png", function (err, data) {
+botly.sendImage({id: userId, url: "http://example.com/image.png"}, function (err, data) {
         //log it
 });
 ```
 
-#### sendButtons (recipientId, text, buttons[, notificationType][, callback])
+#### sendButtons (options[, callback])
 ```javascript
 let buttons = [];
 buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
 buttons.push(botly.createPostbackButton("Continue", "continue"));
-botly.sendButtons(userId, "What do you want to do next?", buttons
+botly.sendButtons({id: userId, text: "What do you want to do next?", buttons: buttons}
     , function (err, data) {
         //log it
 });
 ```
 
-#### sendGeneric (recipientId, elements[, notificationType][, callback])
+#### sendGeneric (options[, callback])
 ```javascript
 let buttons = [];
 buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
 buttons.push(botly.createPostbackButton("Continue", "continue"));
-let element = botly.createElement("What do you want to do next?",
-    "http://example.com", /*itemURL*/
-    "http://example.com/image.png", /*imageURL*/
-"Choose now!", buttons);
-botly.sendGeneric(sender, element, function (err, data) {
+let element = {
+  title: "What do you want to do next?",
+  item_url: "http://example.com",
+  image_url: "http://example.com/image.png",
+  subtitle: "Choose now!",
+  buttons: buttons
+}
+botly.sendGeneric({id: userId, elements: element}, function (err, data) {
     console.log("send generic cb:", err, data);
 });
 ```
 
-#### sendReceipt (recipientId, payload[, notificationType][, callback])
+#### sendReceipt (options[, callback])
 ```javascript
 let payload = {
     "recipient_name": "Stephane Crozatier",
@@ -171,16 +179,23 @@ let payload = {
         }
     ]
 };
-botly.sendReceipt(sender, payload, function (err, data) {
+botly.sendReceipt({id: sender, payload: payload}, function (err, data) {
     console.log("send generic cb:", err, data);
 });
 ```
 
-#### setWelcomeScreen (pageId, message[, callback])
+#### setWelcomeScreen (options[, callback])
 ```javascript
-botly.setWelcomeScreen("myPage", {
+botly.setWelcomeScreen({pageId: "myPage", message: {
     text: "Welcome to my page!"
-}, function (err, body) {
+}}, function (err, body) {
+    //log it
+});
+```
+
+#### setPersistentMenu (options[, callback])
+```javascript
+botly.setWelcomeScreen({pageId: "myPage", buttons: [botly.createPostbackButton('reset', 'reset_me')]}, function (err, body) {
     //log it
 });
 ```
@@ -196,14 +211,14 @@ botly.getUserProfile(senduserIder, function (err, info) {
 
 #### createPostbackButton (title, payload)
 
+#### createQuickReply (title, payload)
+`sendAttachment` and `sendText` both support optional `quick_replies`
+
 #### createButtonTemplate (text, buttons)
 Where `buttons` can be a single button or an array of buttons.
 
 #### createGenericTemplate (elements)
 Where `elements` can be a single element or an array of elements.
-
-#### createElement (title, itemURL, imageURL, subtitle, buttons)
-Where `buttons` can be a single button or an array of buttons.
 
 #### handleMessage (req)
 If you are not using express, you can use this function to parse the request from facebook in order to generate the proper events.
@@ -251,3 +266,12 @@ botly.on("error", (ex) => {
     /* handle exceptions */
 });
 ```
+
+### Change Log
+
+#### version 1.0.0
+- removed `createTemplate` function - was too verbose
+- moved to object parameters - too many parameters
+- added support for quick replies
+- add support for persistent menu
+- added support for audio/video/file attachments
