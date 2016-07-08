@@ -15,6 +15,9 @@ const botly = new Botly({
 });
 
 var app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
 
 var users = {};
 
