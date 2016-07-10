@@ -267,6 +267,9 @@ botly.on("error", (ex) => {
 
 ### Change Log
 
+#### version 1.0.1
+- quick replies are considered as postback and not regular message
+
 #### version 1.0.0
 - removed `createTemplate` function - was too verbose
 - moved to object parameters - too many parameters
