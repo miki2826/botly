@@ -263,9 +263,16 @@ botly.on("optin", (sender, message, optin) => {
 botly.on("error", (ex) => {
     /* handle exceptions */
 });
+
+botly.on("sent", message => {
+    /* track it */
+});
 ```
 
 ### Change Log
+
+#### version 1.0.2
+- added send event - useful for tracking
 
 #### version 1.0.1
 - quick replies are considered as postback and not regular message
