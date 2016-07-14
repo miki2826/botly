@@ -21,6 +21,7 @@
     - [sendImage (options[, callback])](#sendimage-options-callback)
     - [sendButtons (options[, callback])](#sendbuttons-options-callback)
     - [sendGeneric (options[, callback])](#sendgeneric-options-callback)
+    - [sendAction (options[, callback])](#sendaction-options-callback)
     - [sendReceipt (options[, callback])](#sendreceipt-options-callback)
     - [setGetStarted (options[, callback])](#setgetstarted-options-callback)
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
@@ -46,7 +47,7 @@ const botly = new Botly({
     accessToken: pageAccessToken, //page access token provided by facebook
     verifyToken: verificationToken, //needed when using express - the verification token you provided when defining the webhook in facebook
     webHookPath: yourWebHookPath, //defaults to "/",
-    notificationType: Botly.CONST.REGULAR //already the default (optional)
+    notificationType: Botly.CONST.REGULAR //already the default (optional),
 });
 
 botly.on("message", (senderId, message, data) => {
@@ -124,6 +125,13 @@ let element = {
 }
 botly.sendGeneric({id: userId, elements: element}, function (err, data) {
     console.log("send generic cb:", err, data);
+});
+```
+
+#### sendAction (options[, callback])
+```javascript
+botly.sendAction({id: userId, action: Botly.CONST.ACTION_TYPES.TYPING_ON}, function (err, data) {
+        //log it
 });
 ```
 
@@ -270,6 +278,9 @@ botly.on("sent", (to, message) => {
 ```
 
 ### Change Log
+
+#### version 1.1.0
+- added support for sender actions using `sendAction` (mark seen/ typing on/ typing off)
 
 #### version 1.0.3
 - added send event - useful for tracking

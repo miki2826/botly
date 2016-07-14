@@ -423,6 +423,28 @@ describe('Botly Tests', function () {
 
     });
 
+    it('should send sender action', () => {
+        request.post.yields(null, {});
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.sendAction({id: USER_ID, action: Botly.CONST.ACTION_TYPES.TYPING_ON}, ()=> {
+        });
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].body).to.eql({
+            'sender_action': 'typing_on',
+            'recipient': {
+                'id': '333'
+            }
+        });
+
+    });
+
     it('should send text messages with quick replies', () => {
         request.post.yields(null, {});
         var botly = new Botly({
