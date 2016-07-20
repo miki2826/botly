@@ -560,7 +560,7 @@ describe('Botly Tests', function () {
             item_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
             image_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
             subtitle: 'Choose now!',
-            buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com')]
+            buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com'), botly.createAccountLinkButton('http://askrround.com/login')]
         };
         botly.sendGeneric({id: USER_ID, elements: element});
 
@@ -576,6 +576,10 @@ describe('Botly Tests', function () {
                                         'title': 'Go to Askrround',
                                         'type': 'web_url',
                                         'url': 'http://askrround.com'
+                                    },
+                                    {
+                                        'type': 'account_link',
+                                        'url': 'http://askrround.com/login'
                                     }
                                 ],
                                 'image_url': 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',

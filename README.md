@@ -27,6 +27,7 @@
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
     - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
     - [createWebURLButton (title, url)](#createweburlbutton-title-url)
+    - [createAccountLinkButton (url)](#createaccountlinkbutton-url)
     - [createPostbackButton (title, payload)](#createpostbackbutton-title-payload)
     - [createQuickReply (title, payload)](#createquickreply-title-payload)
     - [createButtonTemplate (text, buttons)](#createbuttontemplate-text-buttons)
@@ -214,6 +215,8 @@ botly.getUserProfile(senduserIder, function (err, info) {
 ```
 
 #### createWebURLButton (title, url)
+
+#### createAccountLinkButton (url)
 
 #### createPostbackButton (title, payload)
 
