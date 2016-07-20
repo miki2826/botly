@@ -26,6 +26,7 @@
     - [setGetStarted (options[, callback])](#setgetstarted-options-callback)
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
     - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
+    - [getPSID (accountLinkingToken[, callback])](#getpsid-accountlinkingtoken-callback)
     - [createWebURLButton (title, url)](#createweburlbutton-title-url)
     - [createAccountLinkButton (url)](#createaccountlinkbutton-url)
     - [createPostbackButton (title, payload)](#createpostbackbutton-title-payload)
@@ -214,6 +215,14 @@ botly.getUserProfile(senduserIder, function (err, info) {
 });
 ```
 
+#### getPSID (accountLinkingToken[, callback])
+Used to retrieve the user page-scoped ID (PSID) during the linking flow.
+```javascript
+botly.getUserProfile(accountLinkingToken, function (err, info) {
+    //cache it
+});
+```
+
 #### createWebURLButton (title, url)
 
 #### createAccountLinkButton (url)
@@ -277,6 +286,12 @@ botly.on("error", (ex) => {
 
 botly.on("sent", (to, message) => {
     /* track it */
+});
+
+botly.on("account_link",  (sender, message, link) => {
+     /**
+      * where link is the the object containing the status and authorization code
+      */
 });
 ```
 

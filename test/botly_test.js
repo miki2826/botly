@@ -750,6 +750,31 @@ describe('Botly Tests', function () {
 
     });
 
+    it('should get user profile', done => {
+        request.get.yields(
+            {
+                "id": "111",
+                "recipient": "222"
+            }
+        );
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.getPSID('333', (data) => {
+            expect(request.get.calledOnce).to.be.true;
+            expect(data).to.eql({
+                "id": "111",
+                "recipient": "222"
+            });
+            done();
+        });
+
+    });
+
     it('should set welcome screen', () => {
         request.post.yields(null, {});
         var botly = new Botly({
