@@ -209,14 +209,18 @@ botly.setPersistentMenu({pageId: "myPage", buttons: [botly.createPostbackButton(
 ```
 
 #### getUserProfile (userId[, callback])
+Also supports passing an object as `{id: userId, accessToken: OTHER_TOKEN}`
+
 ```javascript
-botly.getUserProfile(senduserIder, function (err, info) {
+botly.getUserProfile(userId, function (err, info) {
     //cache it
 });
 ```
 
 #### getPSID (accountLinkingToken[, callback])
 Used to retrieve the user page-scoped ID (PSID) during the linking flow.
+Also supports passing an object as `{token: accountLinkingToken, accessToken: OTHER_TOKEN}`
+
 ```javascript
 botly.getUserProfile(accountLinkingToken, function (err, info) {
     //cache it
@@ -296,6 +300,10 @@ botly.on("account_link",  (sender, message, link) => {
 ```
 
 ### Change Log
+
+#### version 1.1.4
+- added support for account linking functionality (event, getPSID)
+- added ability to override accessToken on all APIs for multiple pages support 
 
 #### version 1.1.0
 - added support for sender actions using `sendAction` (mark seen/ typing on/ typing off)

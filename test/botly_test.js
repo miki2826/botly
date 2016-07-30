@@ -237,6 +237,54 @@ describe('Botly Tests', function () {
 
     });
 
+    it('should handle account linking messages', done => {
+        var linkContent = {
+            "status":"linked",
+            "authorization_code":"PASS_THROUGH_AUTHORIZATION_CODE"
+        };
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+        var router = botly.router();
+
+        botly.on('account_link', (id, message, link) => {
+            expect(id).to.equal(USER_ID);
+            expect(link).to.eql(linkContent);
+            done();
+        });
+
+        var response = http.createResponse();
+
+        var request = http.createRequest({
+            method: 'POST',
+            url: '/webhook',
+            body: {
+                'object': 'page',
+                'entry': [
+                    {
+                        'id': PAGE_ID,
+                        'time': 1458668856451,
+                        'messaging': [
+                            {
+                                'sender': {
+                                    'id': USER_ID
+                                },
+                                'recipient': {
+                                    'id': PAGE_ID
+                                },
+                                'account_linking': linkContent
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+        router.handle(request, response);
+    });
+
     it('should handle postback messages', done => {
 
         var botly = new Botly({
@@ -750,7 +798,30 @@ describe('Botly Tests', function () {
 
     });
 
-    it('should get user profile', done => {
+    it('should get user profile with object ', done => {
+        request.get.yields(
+            {
+                first_name: 'miki'
+            }
+        );
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.getUserProfile({id: USER_ID}, (data) => {
+            expect(request.get.calledOnce).to.be.true;
+            expect(data).to.eql({
+                first_name: 'miki'
+            });
+            done();
+        });
+
+    });
+
+    it('should get page scoped id', done => {
         request.get.yields(
             {
                 "id": "111",
@@ -765,6 +836,31 @@ describe('Botly Tests', function () {
         });
 
         botly.getPSID('333', (data) => {
+            expect(request.get.calledOnce).to.be.true;
+            expect(data).to.eql({
+                "id": "111",
+                "recipient": "222"
+            });
+            done();
+        });
+
+    });
+
+    it('should get page scoped id with an object', done => {
+        request.get.yields(
+            {
+                "id": "111",
+                "recipient": "222"
+            }
+        );
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.getPSID({token: '333', accessToken: '7777'}, (data) => {
             expect(request.get.calledOnce).to.be.true;
             expect(data).to.eql({
                 "id": "111",
