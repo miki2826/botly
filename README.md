@@ -292,6 +292,10 @@ botly.on("sent", (to, message) => {
     /* track it */
 });
 
+botly.on("echo", (sender, message, content) => {
+    /* track it */
+});
+
 botly.on("account_link",  (sender, message, link) => {
      /**
       * where link is the the object containing the status and authorization code
@@ -300,6 +304,10 @@ botly.on("account_link",  (sender, message, link) => {
 ```
 
 ### Change Log
+
+#### version 1.1.5
+- fixed duplicate messages on echo  
+- added echo event support 
 
 #### version 1.1.4
 - added support for account linking functionality (event, getPSID)

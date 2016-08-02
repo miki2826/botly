@@ -155,6 +155,58 @@ describe('Botly Tests', function () {
 
     });
 
+    it('should handle echo messages', done => {
+
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+        var router = botly.router();
+
+        botly.on('echo', (id, message, content) => {
+            expect(id).to.equal(USER_ID);
+            expect(content.text).to.equal('some text');
+            done();
+        });
+
+        var response = http.createResponse();
+        var request = http.createRequest({
+            method: 'POST',
+            url: '/webhook',
+            body: {
+                'object': 'page',
+                'entry': [
+                    {
+                        'id': PAGE_ID,
+                        'time': 12341,
+                        'messaging': [
+                            {
+                                'sender': {
+                                    'id': USER_ID
+                                },
+                                'recipient': {
+                                    'id': PAGE_ID
+                                },
+                                'timestamp': 1234567890,
+                                'message': {
+                                    'mid': 'mid.1457764197618:41d102a3e1ae206a38',
+                                    'seq': 73,
+                                    'text': 'some text',
+                                    'is_echo': true
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+
+        router.handle(request, response);
+
+    });
+
     it('should emit error when there is one', done => {
 
         var botly = new Botly({
