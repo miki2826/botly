@@ -36,7 +36,6 @@
     - [handleMessage (req)](#handlemessage-req)
   - [Events](#events)
   - [Change Log](#change-log)
-    - [version 1.0.0](#version-100)
 
 ### Install
 `npm i botly --save`
