@@ -304,6 +304,9 @@ botly.on("account_link",  (sender, message, link) => {
 
 ### Change Log
 
+#### version 1.1.6
+- Send 403 status code when verify token is invalid
+
 #### version 1.1.5
 - fixed duplicate messages on echo  
 - added echo event support 
