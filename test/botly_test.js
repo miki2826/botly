@@ -102,6 +102,7 @@ describe('Botly Tests', function () {
         });
 
         router.handle(request, response);
+        expect(response.statusCode).to.equal(403);
         expect(response._getData()).to.equal('Error, wrong validation token');
 
     });
