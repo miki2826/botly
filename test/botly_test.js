@@ -70,6 +70,7 @@ describe('Botly Tests', function () {
             method: 'GET',
             url: '/webhook',
             query: {
+                'hub.mode': 'subscribe',
                 'hub.verify_token': 'myVerifyToken',
                 'hub.challenge': '42'
             }
@@ -78,6 +79,33 @@ describe('Botly Tests', function () {
         router.handle(request, response);
         expect(response._getData()).to.equal('42');
 
+    });
+    
+    it('should provide an express router and reject correct verify_token if hub.mode is not "subscribe"', () => {
+
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+        var router = botly.router();
+        expect(router).to.be.defined;
+
+        var response = http.createResponse();
+        var request = http.createRequest({
+            method: 'GET',
+            url: '/webhook',
+            query: {
+                'hub.mode': 'SubscribE',
+                'hub.verify_token': 'myVerifyToken',
+                'hub.challenge': '42'
+            }
+        });
+
+        router.handle(request, response);
+        expect(response.statusCode).to.equal(403);
+        expect(response._getData()).to.equal('Error, wrong validation token');
     });
 
     it('should provide an express router and handle bad verify_token', () => {
@@ -96,6 +124,7 @@ describe('Botly Tests', function () {
             method: 'GET',
             url: '/webhook',
             query: {
+                'hub.mode': 'subscribe',
                 'hub.verify_token': '111',
                 'hub.challenge': '42'
             }
