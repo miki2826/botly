@@ -20,7 +20,9 @@
     "askrround",
     "robot",
     "Botly",
-    "msg"
+    "msg",
+    "sdk",
+    "api"
   ],
   "author": {
     "name": "Michael Dimenshtein",
