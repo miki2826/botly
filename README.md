@@ -239,7 +239,7 @@ botly.getUserProfile(accountLinkingToken, function (err, info) {
 });
 ```
 
-#### createWebURLButton (title, url[, heightRatio][, supportExtention][, fallbackURL])
+#### createWebURLButton (title, url[, heightRatio][, supportExtension][, fallbackURL])
 
 #### createAccountLinkButton (url)
 

@@ -584,7 +584,7 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.sendText({id: USER_ID, text: 'hi', quick_replies: [botly.createQuickReply('option1', 'option_1')]}, ()=> {
+        botly.sendText({id: USER_ID, text: 'hi', quick_replies: [botly.createQuickReply('option1', 'option_1', 'http://google.com/someimage.png'), botly.createShareLocation()]}, ()=> {
         });
 
         expect(request.post.calledOnce).to.be.true;
@@ -595,7 +595,11 @@ describe('Botly Tests', function () {
                     {
                         'content_type': 'text',
                         'title': 'option1',
-                        'payload': 'option_1'
+                        'payload': 'option_1',
+                        'image_url': 'http://google.com/someimage.png'
+                    },
+                    {
+                        'content_type': 'location'
                     }
                 ]
             },
@@ -615,14 +619,15 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.sendImage({id: USER_ID, url: 'http://image.com'});
+        botly.sendImage({id: USER_ID, url: 'http://image.com', is_reusable: true});
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
             'message': {
                 'attachment': {
                     'payload': {
-                        'url': 'http://image.com'
+                        'url': 'http://image.com',
+                        'is_reusable': true
                     },
                     'type': 'image'
                 }
@@ -646,7 +651,7 @@ describe('Botly Tests', function () {
         botly.sendButtons({
             id: USER_ID,
             text: 'What do you want to do next?',
-            buttons: botly.createPostbackButton('Continue', 'continue')
+            buttons: botly.createPostbackButton('Continue', 'continue'),
         }, function (err, data) {
         });
 
@@ -690,7 +695,7 @@ describe('Botly Tests', function () {
             item_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
             image_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
             subtitle: 'Choose now!',
-            buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com'), botly.createAccountLinkButton('http://askrround.com/login')]
+            buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com'), botly.createAccountLinkButton('http://askrround.com/login'), botly.createShareButton()]
         };
         botly.sendGeneric({id: USER_ID, elements: element});
 
@@ -710,6 +715,9 @@ describe('Botly Tests', function () {
                                     {
                                         'type': 'account_link',
                                         'url': 'http://askrround.com/login'
+                                    },
+                                    {
+                                        'type': 'element_share'
                                     }
                                 ],
                                 'image_url': 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
@@ -730,6 +738,60 @@ describe('Botly Tests', function () {
         });
 
     });
+
+    it('should send webview buttons', () => {
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        var element = {
+            title: 'What do you want to do next?',
+            item_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+            image_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+            subtitle: 'Choose now!',
+            buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com', Botly.CONST.WEBVIEW_HEIGHT_RATIO.COMPACT, true, 'http://askrround.com')]
+        };
+        botly.sendGeneric({id: USER_ID, elements: element});
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].body).to.eql({
+            'message': {
+                'attachment': {
+                    'payload': {
+                        'elements': [
+                            {
+                                'buttons': [
+                                    {
+                                        'title': 'Go to Askrround',
+                                        'type': 'web_url',
+                                        'url': 'http://askrround.com',
+                                        'webview_height_ratio': 'compact',
+                                        'messenger_extensions': true,
+                                        'fallback_url': 'http://askrround.com'
+                                    }
+                                ],
+                                'image_url': 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+                                'item_url': 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+                                'subtitle': 'Choose now!',
+                                'title': 'What do you want to do next?'
+                            }
+                        ],
+                        'template_type': 'generic'
+                    },
+                    'type': 'template'
+                }
+            },
+            'notification_type': 'NO_PUSH',
+            'recipient': {
+                'id': '333'
+            }
+        });
+
+    });
+
 
     it('should send receipt messages', () => {
         var botly = new Botly({
@@ -974,6 +1036,28 @@ describe('Botly Tests', function () {
             ],
             'setting_type': 'call_to_actions',
             'thread_state': 'new_thread'
+        });
+
+    });
+
+
+    it('should setwhitelist', () => {
+        request.post.yields(null, {});
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.setWhiteList({whiteList: ["https://askhaley.com"], actionType: 'add'}, ()=> {
+        });
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].body).to.eql({
+            'whitelisted_domains': ["https://askhaley.com"],
+            'setting_type': 'domain_whitelisting',
+            'domain_action_type': 'add'
         });
 
     });
