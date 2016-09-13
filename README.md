@@ -24,13 +24,16 @@
     - [sendAction (options[, callback])](#sendaction-options-callback)
     - [sendReceipt (options[, callback])](#sendreceipt-options-callback)
     - [setGetStarted (options[, callback])](#setgetstarted-options-callback)
+    - [setWhitelist (options[, callback])](#setwhitelist-options-callback)
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
     - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
     - [getPSID (accountLinkingToken[, callback])](#getpsid-accountlinkingtoken-callback)
     - [createWebURLButton (title, url)](#createweburlbutton-title-url)
     - [createAccountLinkButton (url)](#createaccountlinkbutton-url)
     - [createPostbackButton (title, payload)](#createpostbackbutton-title-payload)
-    - [createQuickReply (title, payload)](#createquickreply-title-payload)
+    - [createShareButton ()](#createsharebutton)
+    - [createQuickReply (title, payload[, imageURL])](#createquickreply-title-payload-imageurl)
+    - [createShareLocation ()](#createsharelocation)
     - [createButtonTemplate (text, buttons)](#createbuttontemplate-text-buttons)
     - [createGenericTemplate (elements)](#creategenerictemplate-elements)
     - [handleMessage (req)](#handlemessage-req)
@@ -203,6 +206,13 @@ botly.setGetStarted({pageId: "myPage", payload: "GET_STARTED_CLICKED"}, function
 });
 ```
 
+#### setWhitelist (options[, callback])
+```javascript
+botly.setWhitelist({whiteList: ["https://askhaley.com"], actionType: "add" /*default*/}, function (err, body) {
+    //log it
+});
+```
+
 #### setPersistentMenu (options[, callback])
 ```javascript
 botly.setPersistentMenu({pageId: "myPage", buttons: [botly.createPostbackButton('reset', 'reset_me')]}, function (err, body) {
@@ -229,14 +239,19 @@ botly.getUserProfile(accountLinkingToken, function (err, info) {
 });
 ```
 
-#### createWebURLButton (title, url)
+#### createWebURLButton (title, url[, heightRatio][, supportExtention][, fallbackURL])
 
 #### createAccountLinkButton (url)
 
 #### createPostbackButton (title, payload)
 
-#### createQuickReply (title, payload)
+### createShareButton ()
+
+#### createQuickReply (title, payload[, imageURL])
 `sendAttachment` and `sendText` both support optional `quick_replies`
+
+### createShareLocation ()
+share location quick reply
 
 #### createButtonTemplate (text, buttons)
 Where `buttons` can be a single button or an array of buttons.
@@ -306,6 +321,13 @@ botly.on("account_link",  (sender, message, link) => {
 ```
 
 ### Change Log
+
+### version 1.2.0
+- added support for webview height in web url button
+- added support setWhitelist for webview items
+- added createShare button
+- added support for location share quick reply
+- added imageURL to quick reply
 
 #### version 1.1.6
 - Send 403 status code when verify token is invalid
