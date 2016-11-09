@@ -747,7 +747,7 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        let element = botly.createListElement({
+        var element = botly.createListElement({
             title: "Classic T-Shirt Collection",
             image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
             subtitle: "See all our colors",
