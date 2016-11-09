@@ -751,7 +751,7 @@ describe('Botly Tests', function () {
             title: "Classic T-Shirt Collection",
             image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
             subtitle: "See all our colors",
-            buttons: [
+            buttons: [ //Just to test coverage - you should not send more than one button in a list element
                 {title: "Go to Askrround", url: "http://askrround.com"},
                 {title: "DO WORK", payload: "DO_WORK"},
                 {type: "element_share"}
