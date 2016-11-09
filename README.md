@@ -8,7 +8,7 @@
 [![devDependency Status](https://david-dm.org/Askrround/botly/dev-status.svg?theme=shields.io)](https://david-dm.org/Askrround/botly#info=devDependencies)
 [![npm downloads](https://img.shields.io/npm/dm/botly.svg)](https://img.shields.io/npm/dm/botly.svg)
 [![license](https://img.shields.io/npm/l/botly.svg)](LICENSE)
-[![NPM](https://nodei.co/npm/botly.png)](https://nodei.co/npm/botly/)
+[![NPM](https://nodei.co/npm/botly.png?downloads=true&downloadRank=true)](https://nodei.co/npm/botly/)
 
 > Simple Facebook Messenger Platform Bot API
 
@@ -21,6 +21,7 @@
     - [sendImage (options[, callback])](#sendimage-options-callback)
     - [sendButtons (options[, callback])](#sendbuttons-options-callback)
     - [sendGeneric (options[, callback])](#sendgeneric-options-callback)
+    - [sendList (options[, callback])](#sendlist-options-callback)
     - [sendAction (options[, callback])](#sendaction-options-callback)
     - [sendReceipt (options[, callback])](#sendreceipt-options-callback)
     - [setGetStarted (options[, callback])](#setgetstarted-options-callback)
@@ -34,8 +35,10 @@
     - [createShareButton ()](#createsharebutton-)
     - [createQuickReply (title, payload[, imageURL])](#createquickreply-title-payload-imageurl)
     - [createShareLocation ()](#createsharelocation-)
+    - [createListElement (options)](#createlistelement-options)
     - [createButtonTemplate (text, buttons)](#createbuttontemplate-text-buttons)
     - [createGenericTemplate (elements)](#creategenerictemplate-elements)
+    - [createListTemplate (options)](#createlisttemplate-options)
     - [handleMessage (req)](#handlemessage-req)
   - [Events](#events)
   - [Change Log](#change-log)
@@ -131,6 +134,24 @@ let element = {
   buttons: buttons
 }
 botly.sendGeneric({id: userId, elements: element}, function (err, data) {
+    console.log("send generic cb:", err, data);
+});
+```
+
+#### sendList (options[, callback])
+```javascript
+let buttons = [];
+buttons.push(botly.createPostbackButton("Continue", "continue"));
+let element = botly.createListElement({
+  title: "Classic T-Shirt Collection",
+  image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+  subtitle: "See all our colors",
+  buttons: {title: "Go to Askrround", url: "http://askrround.com"},
+  default_action: {
+      "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
+  }
+});
+botly.sendList({id: userId, elements: element, buttons: buttons}, function (err, data) {
     console.log("send generic cb:", err, data);
 });
 ```
@@ -253,11 +274,17 @@ botly.getUserProfile(accountLinkingToken, function (err, info) {
 ### createShareLocation ()
 share location quick reply
 
+#### createListElement (options)
+Will create a list element. `default_action` will be added `web_url` type, and will create button according to properties (`url` means `web_url` and `payload` means `postback`)
+
 #### createButtonTemplate (text, buttons)
 Where `buttons` can be a single button or an array of buttons.
 
 #### createGenericTemplate (elements)
 Where `elements` can be a single element or an array of elements.
+
+#### createListTemplate (options)
+Where `options` has `bottons` and `elements` - an array will be created automatically if a single item was passed.
 
 #### handleMessage (req)
 If you are not using express, you can use this function to parse the request from facebook in order to generate the proper events.
@@ -321,6 +348,9 @@ botly.on("account_link",  (sender, message, link) => {
 ```
 
 ### Change Log
+
+### version 1.3.0
+- support version 1.3 of messenger including the new list template
 
 ### version 1.2.0
 - added support for webview height in web url button

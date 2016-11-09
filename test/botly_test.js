@@ -739,6 +739,81 @@ describe('Botly Tests', function () {
 
     });
 
+    it('should send list template', () => {
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        let element = botly.createListElement({
+            title: "Classic T-Shirt Collection",
+            image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+            subtitle: "See all our colors",
+            buttons: [
+                {title: "Go to Askrround", url: "http://askrround.com"},
+                {title: "DO WORK", payload: "DO_WORK"},
+                {type: "element_share"}
+            ],
+            default_action: {
+                "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
+            }
+        });
+        botly.sendList({id: USER_ID, elements: element, buttons: botly.createPostbackButton("Continue", "continue"), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE});
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].body).to.eql({
+            'message': {
+                'attachment': {
+                    'payload': {
+                        'elements': [
+                            {
+                                'buttons': [
+                                    {
+                                        'title': 'Go to Askrround',
+                                        'type': 'web_url',
+                                        'url': 'http://askrround.com'
+                                    },
+                                    {
+                                        'type': 'postback',
+                                        'title': 'DO WORK',
+                                        'payload': 'DO_WORK'
+                                    },
+                                    {
+                                        'type': 'element_share'
+                                    }
+                                ],
+                                'default_action': {
+                                    'type': 'web_url',
+                                    'url': 'https://peterssendreceiveapp.ngrok.io/shop_collection'
+                                },
+                                'image_url': 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+                                'subtitle': 'See all our colors',
+                                'title': 'Classic T-Shirt Collection'
+                            }
+                        ],
+                        'buttons': [
+                            {
+                                'type': 'postback',
+                                'title': 'Continue',
+                                'payload': 'continue'
+                            }
+                        ],
+                        "top_element_style": "large",
+                        'template_type': 'list'
+                    },
+                    'type': 'template'
+                }
+            },
+            'notification_type': 'NO_PUSH',
+            'recipient': {
+                'id': '333'
+            }
+        });
+
+    });
+
     it('should send webview buttons', () => {
         var botly = new Botly({
             accessToken: 'myToken',
@@ -753,6 +828,65 @@ describe('Botly Tests', function () {
             image_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
             subtitle: 'Choose now!',
             buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com', Botly.CONST.WEBVIEW_HEIGHT_RATIO.COMPACT, true, 'http://askrround.com')]
+        };
+        botly.sendGeneric({id: USER_ID, elements: element});
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].body).to.eql({
+            'message': {
+                'attachment': {
+                    'payload': {
+                        'elements': [
+                            {
+                                'buttons': [
+                                    {
+                                        'title': 'Go to Askrround',
+                                        'type': 'web_url',
+                                        'url': 'http://askrround.com',
+                                        'webview_height_ratio': 'compact',
+                                        'messenger_extensions': true,
+                                        'fallback_url': 'http://askrround.com'
+                                    }
+                                ],
+                                'image_url': 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+                                'item_url': 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+                                'subtitle': 'Choose now!',
+                                'title': 'What do you want to do next?'
+                            }
+                        ],
+                        'template_type': 'generic'
+                    },
+                    'type': 'template'
+                }
+            },
+            'notification_type': 'NO_PUSH',
+            'recipient': {
+                'id': '333'
+            }
+        });
+
+    });
+
+    it('should send webview buttons when passing object', () => {
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        var element = {
+            title: 'What do you want to do next?',
+            item_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+            image_url: 'https://upload.wikimedia.org/wikipedia/en/9/93/Tanooki_Mario.jpg',
+            subtitle: 'Choose now!',
+            buttons: [botly.createWebURLButton({
+                title: 'Go to Askrround',
+                url: 'http://askrround.com',
+                heightRatio: Botly.CONST.WEBVIEW_HEIGHT_RATIO.COMPACT,
+                supportExtension: true,
+                fallbackURL: 'http://askrround.com'
+            })]
         };
         botly.sendGeneric({id: USER_ID, elements: element});
 

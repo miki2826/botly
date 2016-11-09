@@ -50,6 +50,33 @@ botly.on('message', (sender, message, data) => {
                 console.log("send generic cb:", err, data);
             });
         }
+        else if (data && data.text && data.text.indexOf("list") !== -1) {
+            let element = botly.createListElement({
+                title: "Classic T-Shirt Collection",
+                image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+                subtitle: "See all our colors",
+                buttons: [
+                    {title: "DO WORK", payload: "DO_WORK"},
+                ],
+                default_action: {
+                    "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
+                }
+            });
+            let element2 = botly.createListElement({
+                title: "Number 2",
+                image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+                subtitle: "See all our colors",
+                buttons: [
+                    {title: "Go to Askrround", url: "http://askrround.com"},
+                ],
+                default_action: {
+                    "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
+                }
+            });
+            botly.sendList({id: sender, elements: [element, element2], buttons: botly.createPostbackButton("Continue", "continue"), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
+                console.log("send list cb:", err, data);
+            });
+        }
         else if (data && data.text && data.text.indexOf("quick") !== -1) {
             botly.sendText({id: sender, text:"some question?", quick_replies: [botly.createQuickReply('option1', 'option_1')]}, function (err, data) {
                 console.log("send generic cb:", err, data);
@@ -112,7 +139,7 @@ botly.on('message', (sender, message, data) => {
         }
         else {
             botly.send({id: sender, message: {
-                text: `Sorry ${users[sender].last_name}, you are annoying `
+                text: `${users[sender].last_name}, try sending 'list'/'generic'/'receipt'/'quick'/'image'/'buttons' to try out the different types of messages`
             }}, function (err, data) {
                 console.log("regular send cb:", err, data);
             });
@@ -122,7 +149,7 @@ botly.on('message', (sender, message, data) => {
         botly.getUserProfile(sender, function (err, info) {
             users[sender] = info;
 
-            botly.sendText({id: sender, text: text + users[sender].first_name}, function (err, data) {
+            botly.sendText({id: sender, text: `${text} ${users[sender].first_name}`}, function (err, data) {
                 console.log("send text cb:", err, data);
             });
         });
