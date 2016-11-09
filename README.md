@@ -310,9 +310,10 @@ botly.on("message", (sender, message, data) => {
      */
 });
 
-botly.on("postback", (sender, message, postback) => {
+botly.on("postback", (sender, message, postback, ref) => {
     /**
      * where postback is the postback payload
+     * and ref will arrive if m.me params were passed on a get started button (if defined)
      */
 });
 
@@ -345,12 +346,18 @@ botly.on("account_link",  (sender, message, link) => {
       * where link is the the object containing the status and authorization code
       */
 });
+botly.on("referral",  (sender, message, ref) => {
+     /**
+      * where ref is the data in the m.me param
+      */
+});
 ```
 
 ### Change Log
 
 ### version 1.3.0
 - support version 1.3 of messenger including the new list template
+- support for referral params on m.me links
 
 ### version 1.2.0
 - added support for webview height in web url button
