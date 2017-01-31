@@ -1,6 +1,6 @@
 {
   "name": "botly",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "Simple Facebook Messenger Bot API",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Askrround/botly.git"
+    "url": "git+https://github.com/miki2826/botly.git"
   },
   "keywords": [
     "fb",
@@ -30,9 +30,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Askrround/botly/issues"
+    "url": "https://github.com/miki2826/botly/issues"
   },
-  "homepage": "https://github.com/Askrround/botly#readme",
+  "homepage": "https://github.com/miki2826/botly#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",

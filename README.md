@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/Askrround/botly/master/botly_logo.png" width="250" height="250" />
+<img src="https://raw.githubusercontent.com/miki2826/botly/master/botly_logo.png" width="250" height="250" />
 ---------
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
 [![Build Status](https://travis-ci.org/Askrround/botly.svg)](https://travis-ci.org/Askrround/botly)
@@ -337,7 +337,7 @@ botly.on("sent", (to, message) => {
     /* track it */
 });
 
-botly.on("echo", (sender, message, content) => {
+botly.on("echo", (sender, message, content, recipient) => {
     /* track it */
 });
 
@@ -357,7 +357,7 @@ botly.on("referral",  (sender, message, ref) => {
 
 ### version 1.3.0
 - support version 1.3 of messenger including the new list template
-- support for referral params on m.me links
+- support for referral params on m.me links 
 
 ### version 1.2.0
 - added support for webview height in web url button
