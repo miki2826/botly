@@ -16,6 +16,7 @@
   - [Example](#example)
   - [API](#api)
     - [send (options[, callback])](#send-options-callback)
+    - [upload (options[, callback])](#upload-options-callback)
     - [sendText (options[, callback])](#sendtext-options-callback)
     - [sendAttachment (options[, callback])](#sendattachment-options-callback)
     - [sendImage (options[, callback])](#sendimage-options-callback)
@@ -25,6 +26,8 @@
     - [sendAction (options[, callback])](#sendaction-options-callback)
     - [sendReceipt (options[, callback])](#sendreceipt-options-callback)
     - [setGetStarted (options[, callback])](#setgetstarted-options-callback)
+    - [setGreetingText (options[, callback])](#setgreetingtext-options-callback)
+    - [setTargetAudience (options[, callback])](#settargetaudience-options-callback)
     - [setWhitelist (options[, callback])](#setwhitelist-options-callback)
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
     - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
@@ -37,7 +40,7 @@
     - [createShareLocation ()](#createsharelocation-)
     - [createListElement (options)](#createlistelement-options)
     - [createButtonTemplate (text, buttons)](#createbuttontemplate-text-buttons)
-    - [createGenericTemplate (elements)](#creategenerictemplate-elements)
+    - [createGenericTemplate (elements[, aspectRatio])](#creategenerictemplate-elements-aspectratio)
     - [createListTemplate (options)](#createlisttemplate-options)
     - [handleMessage (req)](#handlemessage-req)
   - [Events](#events)
@@ -85,6 +88,16 @@ botly.send({
 });
 ```
 
+#### upload (options[, callback])
+```javascript
+botly.upload({
+    type: Botly.CONST.ATTACHMENT_TYPE.IMAGE,
+    payload: {url: "http://example.com/image.png"}
+}, (err, data) => {
+    //save data.attachment_id
+});
+```
+
 #### sendText (options[, callback])
 ```javascript
 botly.sendText({id: userId, text: "Hi There!"}, function (err, data) {
@@ -93,19 +106,20 @@ botly.sendText({id: userId, text: "Hi There!"}, function (err, data) {
 ```
 
 #### sendAttachment (options[, callback])
+Also supports `options.filedata = '@/tmp/receipt.pdf'`. 
 ```javascript
 botly.sendAttachment({
     id: userId,
     type: Botly.CONST.ATTACHMENT_TYPE.IMAGE,
     payload: {url: "http://example.com/image.png"}
-}, function (err, data) {
+}, (err, data) => {
         //log it
 });
 ```
 
 #### sendImage (options[, callback])
 ```javascript
-botly.sendImage({id: userId, url: "http://example.com/image.png"}, function (err, data) {
+botly.sendImage({id: userId, url: "http://example.com/image.png"}, (err, data) => {
         //log it
 });
 ```
@@ -116,7 +130,7 @@ let buttons = [];
 buttons.push(botly.createWebURLButton("Go to Askrround", "http://askrround.com"));
 buttons.push(botly.createPostbackButton("Continue", "continue"));
 botly.sendButtons({id: userId, text: "What do you want to do next?", buttons: buttons}
-    , function (err, data) {
+    , (err, data) => {
         //log it
 });
 ```
@@ -133,7 +147,7 @@ let element = {
   subtitle: "Choose now!",
   buttons: buttons
 }
-botly.sendGeneric({id: userId, elements: element}, function (err, data) {
+botly.sendGeneric({id: userId, elements: element, aspectRatio: Botly.CONST.IMAGE_ASPECT_RATIO.HORIZONTAL}, (err, data) => {
     console.log("send generic cb:", err, data);
 });
 ```
@@ -151,14 +165,14 @@ let element = botly.createListElement({
       "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
   }
 });
-botly.sendList({id: userId, elements: element, buttons: buttons}, function (err, data) {
+botly.sendList({id: userId, elements: element, buttons: buttons}, (err, data) => {
     console.log("send generic cb:", err, data);
 });
 ```
 
 #### sendAction (options[, callback])
 ```javascript
-botly.sendAction({id: userId, action: Botly.CONST.ACTION_TYPES.TYPING_ON}, function (err, data) {
+botly.sendAction({id: userId, action: Botly.CONST.ACTION_TYPES.TYPING_ON}, (err, data) => {
         //log it
 });
 ```
@@ -222,21 +236,90 @@ botly.sendReceipt({id: sender, payload: payload}, function (err, data) {
 
 #### setGetStarted (options[, callback])
 ```javascript
-botly.setGetStarted({pageId: "myPage", payload: "GET_STARTED_CLICKED"}, function (err, body) {
+botly.setGetStarted({pageId: "myPage", payload: "GET_STARTED_CLICKED"}, (err, body) => {
+    //log it
+});
+```
+
+#### setGreetingText (options[, callback])
+```javascript
+botly.setGreetingText({
+    pageId: "myPage",
+     greeting: [{
+           "locale":"default",
+           "text":"Hello!"
+       }, {
+           "locale":"en_US",
+           "text":"Timeless apparel for the masses."
+   }]}, (err, body) => {
+    //log it
+});
+```
+
+#### setTargetAudience (options[, callback])
+```javascript
+botly.setTargetAudience({
+    pageId: "myPage",
+    audience: {
+         "audience_type":"custom",
+         "countries":{
+             "whitelist":["US", "CA"]
+         }
+     }}, (err, body) => {
     //log it
 });
 ```
 
 #### setWhitelist (options[, callback])
 ```javascript
-botly.setWhitelist({whiteList: ["https://askhaley.com"], actionType: "add" /*default*/}, function (err, body) {
+botly.setWhitelist({whiteList: ["https://askhaley.com"]}, (err, body) => {
     //log it
 });
 ```
 
 #### setPersistentMenu (options[, callback])
 ```javascript
-botly.setPersistentMenu({pageId: "myPage", buttons: [botly.createPostbackButton('reset', 'reset_me')]}, function (err, body) {
+botly.setPersistentMenu({
+    pageId: "myPage", 
+    menu: [
+            {
+               "locale":"default",
+               "composer_input_disabled":true,
+               "call_to_actions":[
+                 {
+                   "title":"My Account",
+                   "type":"nested",
+                   "call_to_actions":[
+                     {
+                       "title":"Pay Bill",
+                       "type":"postback",
+                       "payload":"PAYBILL_PAYLOAD"
+                     },
+                     {
+                       "title":"History",
+                       "type":"postback",
+                       "payload":"HISTORY_PAYLOAD"
+                     },
+                     {
+                       "title":"Contact Info",
+                       "type":"postback",
+                       "payload":"CONTACT_INFO_PAYLOAD"
+                     }
+                   ]
+                 },
+                 {
+                   "type":"web_url",
+                   "title":"Latest News",
+                   "url":"http://petershats.parseapp.com/hat-news",
+                   "webview_height_ratio":"full"
+                 }
+               ]
+             },
+             {
+               "locale":"zh_CN",
+               "composer_input_disabled":false
+             }
+           ]}, (err, body) => {
     //log it
 });
 ```
@@ -280,8 +363,9 @@ Will create a list element. `default_action` will be added `web_url` type, and w
 #### createButtonTemplate (text, buttons)
 Where `buttons` can be a single button or an array of buttons.
 
-#### createGenericTemplate (elements)
+#### createGenericTemplate (elements[, aspectRatio])
 Where `elements` can be a single element or an array of elements.
+and `aspectRatio` defaults to `horizontal`
 
 #### createListTemplate (options)
 Where `options` has `bottons` and `elements` - an array will be created automatically if a single item was passed.
@@ -354,6 +438,15 @@ botly.on("referral",  (sender, message, ref) => {
 ```
 
 ### Change Log
+
+### version 1.4.0
+- support version 1.4 of messenger api
+-  new `setPersistentMenu` API aligned with v1.4
+- added `setGreetingText`, `setAccountLinkingURL`, `setTargetAudience` API
+- aligned all thread settings to the new profile API
+- added support for filedata upload in the `sendAttachment`
+- added support for the new upload attachment API,
+- support for new image_aspect_ratio in generic template
 
 ### version 1.3.0
 - support version 1.3 of messenger including the new list template

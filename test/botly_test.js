@@ -80,7 +80,7 @@ describe('Botly Tests', function () {
         expect(response._getData()).to.equal('42');
 
     });
-    
+
     it('should provide an express router and reject correct verify_token if hub.mode is not "subscribe"', () => {
 
         var botly = new Botly({
@@ -321,8 +321,8 @@ describe('Botly Tests', function () {
 
     it('should handle account linking messages', done => {
         var linkContent = {
-            "status":"linked",
-            "authorization_code":"PASS_THROUGH_AUTHORIZATION_CODE"
+            "status": "linked",
+            "authorization_code": "PASS_THROUGH_AUTHORIZATION_CODE"
         };
         var botly = new Botly({
             accessToken: 'myToken',
@@ -537,7 +537,7 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.sendText({id: USER_ID, text: 'hi'}, ()=> {
+        botly.sendText({id: USER_ID, text: 'hi'}, () => {
         });
 
         expect(request.post.calledOnce).to.be.true;
@@ -562,7 +562,7 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.sendAction({id: USER_ID, action: Botly.CONST.ACTION_TYPES.TYPING_ON}, ()=> {
+        botly.sendAction({id: USER_ID, action: Botly.CONST.ACTION_TYPES.TYPING_ON}, () => {
         });
 
         expect(request.post.calledOnce).to.be.true;
@@ -584,7 +584,11 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.sendText({id: USER_ID, text: 'hi', quick_replies: [botly.createQuickReply('option1', 'option_1', 'http://google.com/someimage.png'), botly.createShareLocation()]}, ()=> {
+        botly.sendText({
+            id: USER_ID,
+            text: 'hi',
+            quick_replies: [botly.createQuickReply('option1', 'option_1', 'http://google.com/someimage.png'), botly.createShareLocation()]
+        }, () => {
         });
 
         expect(request.post.calledOnce).to.be.true;
@@ -635,6 +639,31 @@ describe('Botly Tests', function () {
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
+            }
+        });
+
+    });
+
+    it('should upload attachment', () => {
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.upload({type: Botly.CONST.ATTACHMENT_TYPE.IMAGE, payload: {url: 'http://image.com', is_reusable: true}});
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].body).to.eql({
+            'message': {
+                'attachment': {
+                    'payload': {
+                        'url': 'http://image.com',
+                        'is_reusable': true
+                    },
+                    'type': 'image'
+                }
             }
         });
 
@@ -697,7 +726,7 @@ describe('Botly Tests', function () {
             subtitle: 'Choose now!',
             buttons: [botly.createWebURLButton('Go to Askrround', 'http://askrround.com'), botly.createAccountLinkButton('http://askrround.com/login'), botly.createShareButton()]
         };
-        botly.sendGeneric({id: USER_ID, elements: element});
+        botly.sendGeneric({id: USER_ID, elements: element, aspectRatio: Botly.CONST.IMAGE_ASPECT_RATIO.HORIZONTAL});
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
@@ -726,6 +755,7 @@ describe('Botly Tests', function () {
                                 'title': 'What do you want to do next?'
                             }
                         ],
+                        'image_aspect_ratio': 'horizontal',
                         'template_type': 'generic'
                     },
                     'type': 'template'
@@ -760,7 +790,12 @@ describe('Botly Tests', function () {
                 "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
             }
         });
-        botly.sendList({id: USER_ID, elements: element, buttons: botly.createPostbackButton("Continue", "continue"), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE});
+        botly.sendList({
+            id: USER_ID,
+            elements: element,
+            buttons: botly.createPostbackButton("Continue", "continue"),
+            top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE
+        });
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
@@ -854,6 +889,7 @@ describe('Botly Tests', function () {
                                 'title': 'What do you want to do next?'
                             }
                         ],
+                        'image_aspect_ratio': 'horizontal',
                         'template_type': 'generic'
                     },
                     'type': 'template'
@@ -888,7 +924,7 @@ describe('Botly Tests', function () {
                 fallbackURL: 'http://askrround.com'
             })]
         };
-        botly.sendGeneric({id: USER_ID, elements: element});
+        botly.sendGeneric({id: USER_ID, elements: element, aspectRatio: Botly.CONST.IMAGE_ASPECT_RATIO.SQUARE});
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
@@ -913,6 +949,7 @@ describe('Botly Tests', function () {
                                 'title': 'What do you want to do next?'
                             }
                         ],
+                        'image_aspect_ratio': 'square',
                         'template_type': 'generic'
                     },
                     'type': 'template'
@@ -985,7 +1022,7 @@ describe('Botly Tests', function () {
                 }
             ]
         };
-        botly.sendReceipt({id: USER_ID, payload: payload, notificationType:Botly.CONST.NOTIFICATION_TYPE.REGULAR});
+        botly.sendReceipt({id: USER_ID, payload: payload, notificationType: Botly.CONST.NOTIFICATION_TYPE.REGULAR});
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
@@ -1158,22 +1195,52 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.setGetStarted({pageId: PAGE_ID, payload: 'GET_STARTED_CLICKED'}, ()=> {
+        botly.setGetStarted({pageId: PAGE_ID, payload: 'GET_STARTED_CLICKED'}, () => {
         });
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
-            'call_to_actions': [
-                {
-                    'payload': 'GET_STARTED_CLICKED'
-                }
-            ],
-            'setting_type': 'call_to_actions',
-            'thread_state': 'new_thread'
+            'get_started': {
+                'payload': 'GET_STARTED_CLICKED'
+            }
         });
 
     });
 
+    it('should set greeting text', () => {
+        request.post.yields(null, {});
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.setGreetingText({pageId: PAGE_ID, greeting: [
+            {
+                "locale":"default",
+                "text":"Hello!"
+            }, {
+                "locale":"en_US",
+                "text":"Timeless apparel for the masses."
+            }
+        ]}, () => {
+        });
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].body).to.eql({
+            'greeting': [
+                {
+                    "locale":"default",
+                    "text":"Hello!"
+                }, {
+                    "locale":"en_US",
+                    "text":"Timeless apparel for the masses."
+                }
+            ]
+        });
+
+    });
 
     it('should setwhitelist', () => {
         request.post.yields(null, {});
@@ -1184,14 +1251,41 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.setWhiteList({whiteList: ["https://askhaley.com"], actionType: 'add'}, ()=> {
+        botly.setWhiteList({whiteList: ["https://askhaley.com"]}, () => {
         });
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
-            'whitelisted_domains': ["https://askhaley.com"],
-            'setting_type': 'domain_whitelisting',
-            'domain_action_type': 'add'
+            'whitelisted_domains': ["https://askhaley.com"]
+        });
+
+    });
+
+    it('should set target audience', () => {
+        request.post.yields(null, {});
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.setTargetAudience({audience: {
+            "audience_type":"custom",
+            "countries":{
+                "whitelist":["US", "CA"]
+            }
+        }}, () => {
+        });
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].body).to.eql({
+            'target_audience': {
+                "audience_type":"custom",
+                "countries":{
+                    "whitelist":["US", "CA"]
+                }
+            }
         });
 
     });
@@ -1205,20 +1299,90 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.setPersistentMenu({pageId: PAGE_ID, buttons: [botly.createPostbackButton('reset', 'reset_me')]}, ()=> {
+        botly.setPersistentMenu({
+            pageId: PAGE_ID, menu: [
+                {
+                    "locale": "default",
+                    "composer_input_disabled": true,
+                    "call_to_actions": [
+                        {
+                            "title": "My Account",
+                            "type": "nested",
+                            "call_to_actions": [
+                                {
+                                    "title": "Pay Bill",
+                                    "type": "postback",
+                                    "payload": "PAYBILL_PAYLOAD"
+                                },
+                                {
+                                    "title": "History",
+                                    "type": "postback",
+                                    "payload": "HISTORY_PAYLOAD"
+                                },
+                                {
+                                    "title": "Contact Info",
+                                    "type": "postback",
+                                    "payload": "CONTACT_INFO_PAYLOAD"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "web_url",
+                            "title": "Latest News",
+                            "url": "http://petershats.parseapp.com/hat-news",
+                            "webview_height_ratio": "full"
+                        }
+                    ]
+                },
+                {
+                    "locale": "zh_CN",
+                    "composer_input_disabled": false
+                }
+            ]
+        }, () => {
         });
 
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
-            'call_to_actions': [
+            'persistent_menu': [
                 {
-                    type: 'postback',
-                    title: 'reset',
-                    payload: 'reset_me'
+                    "locale": "default",
+                    "composer_input_disabled": true,
+                    "call_to_actions": [
+                        {
+                            "title": "My Account",
+                            "type": "nested",
+                            "call_to_actions": [
+                                {
+                                    "title": "Pay Bill",
+                                    "type": "postback",
+                                    "payload": "PAYBILL_PAYLOAD"
+                                },
+                                {
+                                    "title": "History",
+                                    "type": "postback",
+                                    "payload": "HISTORY_PAYLOAD"
+                                },
+                                {
+                                    "title": "Contact Info",
+                                    "type": "postback",
+                                    "payload": "CONTACT_INFO_PAYLOAD"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "web_url",
+                            "title": "Latest News",
+                            "url": "http://petershats.parseapp.com/hat-news",
+                            "webview_height_ratio": "full"
+                        }
+                    ]
+                },
+                {
+                    "locale": "zh_CN",
+                    "composer_input_disabled": false
                 }
-            ],
-            'setting_type': 'call_to_actions',
-            'thread_state': 'existing_thread'
+            ]
         });
 
     });
