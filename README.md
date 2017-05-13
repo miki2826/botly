@@ -1,5 +1,5 @@
 <img src="https://raw.githubusercontent.com/miki2826/botly/master/botly_logo.png" width="250" height="250" />
----------
+
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
 [![Build Status](https://travis-ci.org/Askrround/botly.svg)](https://travis-ci.org/Askrround/botly)
 [![Test Coverage](https://codeclimate.com/github/Askrround/botly/badges/coverage.svg)](https://codeclimate.com/github/Askrround/botly/coverage)
@@ -32,7 +32,7 @@
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
     - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
     - [getPSID (accountLinkingToken[, callback])](#getpsid-accountlinkingtoken-callback)
-    - [createWebURLButton (title, url)](#createweburlbutton-title-url)
+    - [createWebURLButton (title, url[, heightRatio][, supportExtension][, fallbackURL][, disableShare])](#createweburlbutton-title-url-heightratio-supportextension-fallbackurl-disableshare)
     - [createAccountLinkButton (url)](#createaccountlinkbutton-url)
     - [createPostbackButton (title, payload)](#createpostbackbutton-title-payload)
     - [createShareButton ()](#createsharebutton-)
