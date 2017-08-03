@@ -30,6 +30,7 @@
     - [setTargetAudience (options[, callback])](#settargetaudience-options-callback)
     - [setWhitelist (options[, callback])](#setwhitelist-options-callback)
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
+    - [removePersistentMenu (options[, callback])](#removepersistentmenue-options-callback)]
     - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
     - [getPSID (accountLinkingToken[, callback])](#getpsid-accountlinkingtoken-callback)
     - [createWebURLButton (title, url)](#createweburlbutton-title-url)
@@ -322,6 +323,17 @@ botly.setPersistentMenu({
            ]}, (err, body) => {
     //log it
 });
+```
+
+#### removePersistentMenu (options[, callback])
+```javascript
+botly.removePersistentMenu(
+    {
+        pageId: "myPage",
+    }, 
+    (err, body) => {
+        //log it
+    });
 ```
 
 #### getUserProfile (userId[, callback])
