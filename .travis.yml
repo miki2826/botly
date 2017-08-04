@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-   - "4.4.3"
+   - "8.1.4"
 before_install: npm install -g grunt-cli
 after_script:
   - npm install -g codeclimate-test-reporter
