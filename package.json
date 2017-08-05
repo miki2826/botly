@@ -1,6 +1,6 @@
 {
   "name": "botly",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Simple Facebook Messenger Bot API",
   "main": "index.js",
   "scripts": {
