@@ -53,6 +53,7 @@
 ### Example
 ```javascript
 const express = require("express");
+const bodyParser = require("body-parser");
 const Botly = require("botly");
 const botly = new Botly({
     accessToken: pageAccessToken, //page access token provided by facebook
@@ -71,6 +72,8 @@ botly.on("message", (senderId, message, data) => {
 });
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/webhook", botly.router());
 app.listen(3000);
 ```
