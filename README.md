@@ -158,20 +158,32 @@ botly.sendGeneric({id: userId, elements: element, aspectRatio: Botly.CONST.IMAGE
 
 #### sendList (options[, callback])
 ```javascript
-let buttons = [];
-buttons.push(botly.createPostbackButton("Continue", "continue"));
-let element = botly.createListElement({
-  title: "Classic T-Shirt Collection",
-  image_url: "https://peterssendreceiveapp.ngrok.io/img/collection.png",
-  subtitle: "See all our colors",
-  buttons: {title: "Go to Askrround", url: "http://askrround.com"},
-  default_action: {
-      "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
-  }
-});
-botly.sendList({id: userId, elements: element, buttons: buttons}, (err, data) => {
-    console.log("send generic cb:", err, data);
-});
+
+ let element = botly.createListElement({
+        title: 'First Elemen',
+        image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+        subtitle: 'subtitle text',
+        buttons: [
+            {title: 'Payload Button', payload: 'first_element'},
+        ],
+        default_action: {
+            'url': 'https://peterssendreceiveapp.ngrok.io/shop_collection',
+        }
+    });
+    let element2 = botly.createListElement({
+        title: 'Other Element',
+        image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+        subtitle: 'even more subtitle',
+        buttons: [
+            {title: "Go to Askrround", url: "http://askrround.com"},
+        ],
+        default_action: {
+            'url': 'https://peterssendreceiveapp.ngrok.io/shop_collection',
+        }
+    });
+    botly.sendList({id: sender, elements: [element, element2], buttons: botly.createPostbackButton('More Plans', 'MORE_PLANS'), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
+        console.log('send list cb:', err, data);
+    });
 ```
 
 #### sendAction (options[, callback])
