@@ -159,31 +159,31 @@ botly.sendGeneric({id: userId, elements: element, aspectRatio: Botly.CONST.IMAGE
 #### sendList (options[, callback])
 ```javascript
 
- let element = botly.createListElement({
-        title: 'First Elemen',
-        image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
-        subtitle: 'subtitle text',
-        buttons: [
-            {title: 'Payload Button', payload: 'first_element'},
-        ],
-        default_action: {
-            'url': 'https://peterssendreceiveapp.ngrok.io/shop_collection',
-        }
-    });
-    let element2 = botly.createListElement({
-        title: 'Other Element',
-        image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
-        subtitle: 'even more subtitle',
-        buttons: [
-            {title: "Go to Askrround", url: "http://askrround.com"},
-        ],
-        default_action: {
-            'url': 'https://peterssendreceiveapp.ngrok.io/shop_collection',
-        }
-    });
-    botly.sendList({id: sender, elements: [element, element2], buttons: botly.createPostbackButton('More Plans', 'MORE_PLANS'), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
-        console.log('send list cb:', err, data);
-    });
+const element = botly.createListElement({
+    title: 'First Element',
+    image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+    subtitle: 'subtitle text',
+    buttons: [
+        {title: 'Payload Button', payload: 'first_element'},
+    ],
+    default_action: {
+        'url': 'https://peterssendreceiveapp.ngrok.io/shop_collection',
+    }
+});
+const element2 = botly.createListElement({
+    title: 'Other Element',
+    image_url: 'https://peterssendreceiveapp.ngrok.io/img/collection.png',
+    subtitle: 'even more subtitle',
+    buttons: [
+        {title: "Go to Askrround", url: "http://askrround.com"},
+    ],
+    default_action: {
+        'url': 'https://peterssendreceiveapp.ngrok.io/shop_collection',
+    }
+});
+botly.sendList({id: sender, elements: [element, element2], buttons: botly.createPostbackButton('More Plans', 'MORE_PLANS'), top_element_style: Botly.CONST.TOP_ELEMENT_STYLE.LARGE},function (err, data) {
+      console.log('send list cb:', err, data);
+});
 ```
 
 #### sendAction (options[, callback])
