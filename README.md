@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/miki2826/botly/master/botly_logo.png" width="250" height="250" />
 
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
-[![Build Status](https://travis-ci.org/Askrround/botly.svg)](https://travis-ci.org/Askrround/botly)
+[![Build Status](https://travis-ci.org/miki2826/botly.svg)](https://travis-ci.org/miki2826/botly)
 [![Test Coverage](https://codeclimate.com/github/Askrround/botly/badges/coverage.svg)](https://codeclimate.com/github/Askrround/botly/coverage)
 [![npm version](https://badge.fury.io/js/botly.svg)](http://badge.fury.io/js/botly)
 [![Dependency Status](https://david-dm.org/Askrround/botly.svg?theme=shields.io)](https://david-dm.org/Askrround/botly)
