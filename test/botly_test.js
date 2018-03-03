@@ -541,6 +541,34 @@ describe('Botly Tests', function () {
         });
 
         expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].url).to.equal('https://graph.facebook.com/v2.6/me/messages');
+        expect(request.post.args[0][0].body).to.eql({
+            'message': {
+                'text': 'hi'
+            },
+            'notification_type': 'NO_PUSH',
+            'recipient': {
+                'id': '333'
+            }
+        });
+
+    });
+
+    it('should allow overriding the url', () => {
+        request.post.yields(null, {});
+        var botly = new Botly({
+            accessToken: 'myToken',
+            verifyToken: 'myVerifyToken',
+            webHookPath: '/webhook',
+            FB_URL: 'https://mydomain.com/',
+            notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
+        });
+
+        botly.sendText({id: USER_ID, text: 'hi'}, () => {
+        });
+
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.args[0][0].url).to.equal('https://mydomain.com/me/messages');
         expect(request.post.args[0][0].body).to.eql({
             'message': {
                 'text': 'hi'
