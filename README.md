@@ -76,7 +76,9 @@ botly.on("message", (senderId, message, data) => {
 });
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    verify: botly.getVerifySignature(process.env.APP_SECRET) //allow signature verification based on the app secret
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/webhook", botly.router());
 app.listen(3000);
@@ -473,6 +475,7 @@ botly.on("referral",  (sender, message, ref) => {
 ### version 1.5.0
 - added required `messaging_type` parameter when sending message
 - added the ability to override the `FB_URL` for testing purposes
+- added `getVerifySignature(APP_SECRET)` function to allow signature verification - provide the result to `bodyParser.json({verify})`
 
 ### version 1.4.0
 - support version 1.4 of messenger api

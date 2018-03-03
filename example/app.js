@@ -179,7 +179,7 @@ if (process.env.PAGE_ID) {
     botly.setPersistentMenu({pageId: process.env.PAGE_ID, menu: [
         {
             'locale':'default',
-            'composer_input_disabled':true,
+            'composer_input_disabled':false,
             'call_to_actions':[
                 {
                     'title':'My Account',
@@ -229,7 +229,14 @@ if (process.env.PAGE_ID) {
     });
 }
 
-app.use(bodyParser.json());
+let verify = () => {};
+if (process.env.APP_SECRET) {
+    verify = botly.getVerifySignature(process.env.APP_SECRET);
+}
+
+app.use(bodyParser.json({
+    verify
+}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/fb', botly.router());
 app.set('port', port);
