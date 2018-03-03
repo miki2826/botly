@@ -546,6 +546,7 @@ describe('Botly Tests', function () {
             'message': {
                 'text': 'hi'
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -573,6 +574,7 @@ describe('Botly Tests', function () {
             'message': {
                 'text': 'hi'
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -596,6 +598,7 @@ describe('Botly Tests', function () {
         expect(request.post.calledOnce).to.be.true;
         expect(request.post.args[0][0].body).to.eql({
             'sender_action': 'typing_on',
+            'messaging_type': 'RESPONSE',
             'recipient': {
                 'id': '333'
             }
@@ -635,6 +638,7 @@ describe('Botly Tests', function () {
                     }
                 ]
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -664,6 +668,7 @@ describe('Botly Tests', function () {
                     'type': 'image'
                 }
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -731,6 +736,7 @@ describe('Botly Tests', function () {
                     'type': 'template'
                 }
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -789,6 +795,7 @@ describe('Botly Tests', function () {
                     'type': 'template'
                 }
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -869,6 +876,7 @@ describe('Botly Tests', function () {
                     'type': 'template'
                 }
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -923,6 +931,7 @@ describe('Botly Tests', function () {
                     'type': 'template'
                 }
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -983,6 +992,7 @@ describe('Botly Tests', function () {
                     'type': 'template'
                 }
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'NO_PUSH',
             'recipient': {
                 'id': '333'
@@ -1110,6 +1120,7 @@ describe('Botly Tests', function () {
                     'type': 'template'
                 }
             },
+            'messaging_type': 'RESPONSE',
             'notification_type': 'REGULAR',
             'recipient': {
                 'id': '333'
