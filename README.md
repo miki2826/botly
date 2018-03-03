@@ -470,6 +470,10 @@ botly.on("referral",  (sender, message, ref) => {
 
 ### Change Log
 
+### version 1.5.0
+- added required `messaging_type` parameter when sending message
+- added the ability to override the `FB_URL` for testing purposes
+
 ### version 1.4.0
 - support version 1.4 of messenger api
 -  new `setPersistentMenu` API aligned with v1.4
