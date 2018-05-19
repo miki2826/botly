@@ -541,7 +541,7 @@ describe('Botly Tests', function () {
         });
 
         expect(request.post.calledOnce).to.be.true;
-        expect(request.post.args[0][0].url).to.equal('https://graph.facebook.com/v2.6/me/messages');
+        expect(request.post.args[0][0].url).to.equal('https://graph.facebook.com/v2.12/me/messages');
         expect(request.post.args[0][0].body).to.eql({
             'message': {
                 'text': 'hi'
