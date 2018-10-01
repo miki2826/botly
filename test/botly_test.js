@@ -1129,7 +1129,7 @@ describe('Botly Tests', function () {
 
     });
 
-    it('should get user profile', done => {
+    it('should get user profile with default fields', done => {
         request.get.yields(
             {
                 first_name: 'miki'
@@ -1147,12 +1147,21 @@ describe('Botly Tests', function () {
             expect(data).to.eql({
                 first_name: 'miki'
             });
+
+            const expectedFields = [
+                Botly.CONST.USER_PROFILE_FIELD.FIRST_NAME,
+                Botly.CONST.USER_PROFILE_FIELD.LAST_NAME,
+                Botly.CONST.USER_PROFILE_FIELD.PROFILE_PIC
+            ].join(',');
+            const actualFields = request.get.getCall(0).args[0].qs.fields;
+            expect(expectedFields).to.equal(actualFields);
+
             done();
         });
 
     });
 
-    it('should get user profile with object ', done => {
+    it('should get user profile with object and specified fields', done => {
         request.get.yields(
             {
                 first_name: 'miki'
@@ -1165,11 +1174,22 @@ describe('Botly Tests', function () {
             notificationType: Botly.CONST.NOTIFICATION_TYPE.NO_PUSH
         });
 
-        botly.getUserProfile({id: USER_ID}, (data) => {
+        const options = {
+            id: USER_ID,
+            fields: [
+                Botly.CONST.USER_PROFILE_FIELD.FIRST_NAME,
+                Botly.CONST.USER_PROFILE_FIELD.PROFILE_PIC
+            ]
+        };
+        botly.getUserProfile(options, (data) => {
             expect(request.get.calledOnce).to.be.true;
             expect(data).to.eql({
                 first_name: 'miki'
             });
+
+            const expectedFields = options.fields.join(',');
+            const actualFields = request.get.getCall(0).args[0].qs.fields;
+            expect(actualFields).to.equal(expectedFields);
             done();
         });
 

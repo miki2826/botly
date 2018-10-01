@@ -32,7 +32,7 @@
     - [setWhitelist (options[, callback])](#setwhitelist-options-callback)
     - [setPersistentMenu (options[, callback])](#setpersistentmenue-options-callback)
     - [removePersistentMenu (options[, callback])](#removepersistentmenue-options-callback)]
-    - [getUserProfile (userId[, callback])](#getuserprofile-userid-callback)
+    - [getUserProfile (options[, callback])](#getuserprofile-options-callback)
     - [getPSID (accountLinkingToken[, callback])](#getpsid-accountlinkingtoken-callback)
     - [createWebURLButton (title, url[, heightRatio][, supportExtension][, fallbackURL][, disableShare])](#createweburlbutton-title-url-heightratio-supportextension-fallbackurl-disableshare)
     - [createAccountLinkButton (url)](#createaccountlinkbutton-url)
@@ -357,8 +357,26 @@ botly.removePersistentMenu(
     });
 ```
 
-#### getUserProfile (userId[, callback])
-Also supports passing an object as `{id: userId, accessToken: OTHER_TOKEN}`
+#### getUserProfile (options[, callback])
+Used to retrieve basic profile details by user page-scoped ID (PSID). You can pass the `userID` directly, in which case a default set of fields (`first_name`, `last_name`, `profile_pic`) are requested.
+
+Also supports passing an object as
+```javascript
+const options = {
+    id: userId,
+    fields: [
+        Botly.CONST.USER_PROFILE_FIELD.FIRST_NAME,
+        Botly.CONST.USER_PROFILE_FIELD.LAST_NAME
+    ],
+    accessToken: OTHER_TOKEN
+}
+
+botly.getUserProfile(options, function (err, info) {
+    //cache it
+});
+```
+
+or
 
 ```javascript
 botly.getUserProfile(userId, function (err, info) {
